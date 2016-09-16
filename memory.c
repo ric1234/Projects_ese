@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include "memory.h"
 int8_t my_memmove(uint8_t * src, uint8_t * dst, uint32_t length)
 {
    int i; 
@@ -70,9 +71,9 @@ int8_t my_reverse(uint8_t * src, uint32_t length)
    {
       for(i=0;i<=(length-1)/2;i++)
        {
-     temp=src+i;
-     src+i=src+length-i;
-     src+length-i=temp;
+     temp=*(src+i);
+     *(src+i)=*(src+length-i);
+     *(src+length-i)=temp;
     }
    return 0;
    }
