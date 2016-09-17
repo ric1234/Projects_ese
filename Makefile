@@ -6,9 +6,12 @@ CC=gcc
 #CC_FRDM=arm-none-eabi-gcc
 
 #The flags
-
 CFLAGS= -o
 #GEN_ALL= -save-temps=cwd		##Saves all the temporary files generated
+
+C_FILES=project_1.c main.c memory.c data.c
+
+I_FILES=project_1.i main.i memory.i data.i
 
 #OPTIONS= -Wall -g -O0 #-Arch_specific
 #UPLOAD=scp 
@@ -52,29 +55,61 @@ frdm:
 
 
 
+#======================================
+#=======Additional Targets=============
+#======================================
 
-#=======Added functionality===========#
+#preprocess: $(C_FILES)
+#	$(CC) -E $(C_FILES) -o $(I_FILES)
+
+
+
+
+#=======Preprocessing files (Output generated in the Command line)======
 preprocess:
+	$(CC) -E *.c
+.PHONY : preprocess
 
-asm-file:
+%.i : %.c
+	$(CC) -E $< -o $@
+
+#=======Assembly output files=============
+asm-file: *.c
 	gcc -S *.c
+.PHONY : asm-file
 
-%.o:
-#How to do this? You have to pick out the name of the file from the command line
+%.s : %.c
+	$(CC) -S $< -o $@
 
-complile-all:
-	gcc -c *.c 
+#=======Individual compilation and not link (Working)=====
+
+%.o : %.c
+	$(CC) -c $< -o $@
+
+#=======Compile all files (Working)===========
+
+compile-all:
+	$(CC) -c *.c 
+.PHONY : compile-all
+
+#=======Build all files and link============ Not working
 
 build:
 	ld *.o 
-upload:
-	scp root@10.0.0.215 /home/richard/Desktop/Making /ric
+.PHONY : build
 
+#=======Upload the files to BBB=============Not tested
+upload: %.o
+	scp root@10.0.0.215 /home/richard/Desktop/Making/Deep/$@ /ric
+.PHONY : upload
+
+#=======Clean the files=====================Working but gives error if all files not present
 clean: 
-	rm *o *.map *.out *.o *.S *.i
-.PHONY : all
+	rm *o *.map *.out *.o *.s *.i
+.PHONY : clean
 
+#=======Generates a library into archive========Working. Dont know meaning of cvq
 build-lib:
-	ar -cvq libproject.a memory.c data.c		#http://www.yolinux.com/TUTORIALS/LibraryArchives-StaticAndDynamic.html
+	ar cvq libproject.a memory.c data.c		
 .PHONY : build-lib
 
