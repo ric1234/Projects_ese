@@ -10,13 +10,13 @@ void dump_memory(uint8_t * start, uint32_t length)
         printf("%x\t",*start);
         start++;
     }
-    return 0;
 }
 
 uint32_t big_to_little(uint32_t data)
 {
- uint8_t * start1,temp,i;
-    start1=&data;
+ uint8_t * start1,temp,i,j;
+    j=(uint8_t)data;
+    start1=&j;
     for(i=0;i<2;i++)
     {
         temp=*(start1+i);
@@ -29,8 +29,9 @@ uint32_t big_to_little(uint32_t data)
 
 uint32_t little_to_bit(uint32_t data)
 {
- uint8_t * start2,temp,i;
-    start2=&data;
+ uint8_t * start2,temp,i,j;
+    j=(uint8_t)data;
+    start2=&j;
     for(i=0;i<2;i++)
     {
         temp=*(start2+i);
@@ -43,9 +44,9 @@ uint32_t little_to_bit(uint32_t data)
 
 int32_t my_atoi(int8_t * str)
 {
-  int32_t* whole;
-   whole=str;
-   return whole;
+  int32_t* whole,j;
+   whole=(int32_t*)str;
+   return *whole;
 }
 
 

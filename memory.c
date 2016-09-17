@@ -64,7 +64,7 @@ int8_t my_reverse(uint8_t * src, uint32_t length)
        {
          temp=*(src+i);
          *(src+i)=*(src+length-i-1);
-         *(src+length-i)=temp;
+         *(src+length-i-1)=temp;
        }
        return 0;
      }
@@ -74,7 +74,7 @@ int8_t my_reverse(uint8_t * src, uint32_t length)
        {
          temp=*(src+i);
          *(src+i)=*(src+length-i-1);
-         *(src+length-i)=temp;
+         *(src+length-i-1)=temp;
        }
        return 0;
      }
