@@ -1,15 +1,25 @@
 #Declaring variables
+include sources.mk
+
+
+
+IS:=$(SRCS:.c=.i)
+ASM_FILES:=$(IS:.i=.s)
+
+OBJ_FILES:=$(SRCS:.s=.o)
+OBJECT_FILES:=$(SRCS:.c=.o)
+
 
 #The compilers
-CC=gcc
+
 #CC_BBB=arm-linux-gnueabihf-gcc 
 #CC_FRDM=arm-none-eabi-gcc
 
 #The flags
-CFLAGS= -o
+#CFLAGS= -o
 #GEN_ALL= -save-temps=cwd		##Saves all the temporary files generated
 
-C_FILES=project_1.c main.c memory.c data.c
+#C_FILES=project_1.c main.c memory.c data.c
 
 I_FILES=project_1.i main.i memory.i data.i
 
@@ -27,30 +37,38 @@ I_FILES=project_1.i main.i memory.i data.i
 
 
 #====================Main code starts here:
-all: hello
+default: build
+
+all: host_name
 .PHONY : all
 
-host:
-.PHONY : host
+host_name: %$<
 
-hello.exe: Omkar.o
-	$(CC) Omkar.o -o Yo
+
+
 
 Omkar.o: Omkar.c
 	$(CC) -c Omkar.c
 
 #=============Board specific===========================
+host:
+ifeq (%$@, host)
+	CCC=gcc
+endif
+	
+.PHONY : host
+
 bbb:
+	CCC=arm-linux-gnueabihf-gcc
+	
 
 frdm:
+	CCC=arm-none-eabi-gcc
+#====================================================
 
 
-
-
-
-
-
-
+check: $(INCLUDES) $(OBJS)
+	gcc $< -o execu
 
 
 
@@ -66,46 +84,48 @@ frdm:
 
 
 #=======Preprocessing files (Output generated in the Command line)======
-preprocess:
-	$(CC) -E *.c
+preprocess: $(IS)
+	$(CCC) -E $< -o $@
 .PHONY : preprocess
 
 %.i : %.c
-	$(CC) -E $< -o $@
+	$(CCC) -E $< -o $@
 
 #=======Assembly output files=============
-asm-file: *.c
-	gcc -S *.c
+asm-file: $(ASM_FILES)
+	$(CCC) -S $(ASM_FILES)
 .PHONY : asm-file
 
-%.s : %.c
-	$(CC) -S $< -o $@
+%.s : %.i
+	$(CCC) -S $< -o $@
 
 #=======Individual compilation and not link (Working)=====
-
-%.o : %.c
-	$(CC) -c $< -o $@
+obj-file: $(OBJ_FILES)
+	$(CCC) -c $(OBJ_FILES)
+.PHONY : obj-file
+%.o : %.s
+	$(CCC) -c $< -o $@		##$@: Prereq  $<:Target
 
 #=======Compile all files (Working)===========
 
-compile-all:
-	$(CC) -c *.c 
+compile-all: $(OBJECT_FILES)
+	$(CCC) -c $(OBJECT_FILES) 
 .PHONY : compile-all
 
-#=======Build all files and link============ Not working
+#=======Build all files and link============Working
 
-build:
-	ld *.o 
+build: $(INCLUDES) $(OBJECT_FILES)
+	$(CCC) $(OBJECT_FILES) -o project -M 
 .PHONY : build
 
 #=======Upload the files to BBB=============Not tested
-upload: %.o
+upload: 
 	scp root@10.0.0.215 /home/richard/Desktop/Making/Deep/$@ /ric
 .PHONY : upload
 
 #=======Clean the files=====================Working but gives error if all files not present
 clean: 
-	rm *o *.map *.out *.o *.s *.i
+	rm *o *.map *.out *.o *.s *.i *.exe
 .PHONY : clean
 
 #=======Generates a library into archive========Working. Dont know meaning of cvq
