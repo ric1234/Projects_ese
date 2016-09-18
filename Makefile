@@ -34,6 +34,14 @@ I_FILES=project_1.i main.i memory.i data.i
 #linker
 #LD_1=arm-linux-gnueabi-ld
 
+#=======================Test condition
+ifeq ($(arch),host)
+CCC=gcc
+else ifeq ($(arch), bbb)
+CCC=arm-linux-gnueabihf-gcc
+else ifeq ($(arch), frdm)
+CCC=arm-none-eabi-gcc
+endif
 
 
 #====================Main code starts here:
@@ -45,18 +53,12 @@ all: host_name
 host_name: %$<
 
 
-
-
 Omkar.o: Omkar.c
 	$(CC) -c Omkar.c
 
 #=============Board specific===========================
-host:
-ifeq (%$@, host)
-	CCC=gcc
-endif
-	
-.PHONY : host
+
+
 
 bbb:
 	CCC=arm-linux-gnueabihf-gcc
