@@ -29,6 +29,7 @@ void project_1_report()
     printf("%d\t",*aptr_1);
     aptr_1++;
   }
+ printf("\n");
 }
 
 
