@@ -1,54 +1,38 @@
-#Declaring variables
+#==================Include the make files============================================
 include sources.mk
 
 IS:=$(SRCS:.c=.i)
 ASM_FILES:=$(IS:.i=.s)
+OBJ_FILES:=$(ASM_FILES:.s=.o)
 
-OBJ_FILES:=$(SRCS:.s=.o)
-OBJECT_FILES:=$(SRCS:.c=.o)
 
-#==================Default compiler
+#==================Default compiler==================================================
 CC=gcc
 
-#==================The flags
-CFLAGS= -o 
+#==================The default flags=================================================
+CFLAGS=-ansi -std=c99
 
-#GEN_ALL= -save-temps=cwd		##Saves all the temporary files generated
+WALL=-Wall				##How to implement
+DEBUG= -g 
 
-#OPTIONS= -Wall -g 
-LD_FLAGS= -O0 #-Arch_specific
-#UPLOAD=scp 
-
-#=======================================================
-C99= -ansi -std=c99
-#==============================For eabi=====================
-#assemler=arm-linux-gnueabi-as
+LD_FLAGS= -O0 -Map 			#-Arch_specific
+SIZE=size
 
 
-#linker
-#LD_1=arm-linux-gnueabi-ld
-
-#=======================Test condition===============
+#==================Test condition======================================================
 ifeq ($(arch),host)
 CC=gcc
+SIZE=size
 else ifeq ($(arch), bbb)
 CC=arm-linux-gnueabihf-gcc
+SIZE=arm-linux-gnueabihf-size
 else ifeq ($(arch), frdm)
-CC=arm-none-eabi-gcc
+CC=arm-none-eabi-gcc		#include pragma function
+SIZE=arm-none-eabi-size
 endif
 
-
 #====================Main code starts here:
-default: build
-
-
-#====================TESTING AREA================================
-
-
-check: $(INCLUDES) $(OBJS)
-	gcc $< -o execu
-
-
+all: build size_of_file
 
 
 #======================================
@@ -60,6 +44,8 @@ dependencies:$(SRCS)
 	$(CC) -M $< -o $@
 
 #=======Preprocessing files (Output generated in the Command line)======
+#$@: Prereq  $<:Target
+#======================================================================
 preprocess: $(IS)
 	$(CC) -E $< -o $@
 .PHONY : preprocess
@@ -72,40 +58,45 @@ asm-file: $(ASM_FILES)
 	$(CC) -S $(ASM_FILES)
 .PHONY : asm-file
 
-%.s : %.i
+%.s : %.i 
 	$(CC) -S $< -o $@
 
 #=======Individual compilation and not link (Working)=====
-obj-file: $(OBJ_FILES)
-	$(CC) -c $(OBJ_FILES)
-.PHONY : obj-file
 %.o : %.s
-	$(CC) -c $< -o $@		##$@: Prereq  $<:Target
+	$(CC) -c $< -o $@		
 
 #=======Compile all files (Working)===========
 
-compile-all: $(OBJECT_FILES)
-	$(CC) -c $(OBJECT_FILES) 
+compile-all: $(OBJ_FILES)
+	$(CC) -c $(OBJ_FILES) 
 .PHONY : compile-all
 
-#=======Build all files and link============Working
+#=======Build all files and link===========
 
+<<<<<<< HEAD
 build: $(INCLUDES) $(OBJECT_FILES)
 	$(CC) $(OBJECT_FILES) -o project  
+=======
+build: $(INCLUDES) $(OBJ_FILES)
+	$(CC) $(OBJ_FILES) -o project
+>>>>>>> 673297d6afba393a2f7392539c64d0acf563eb52
 .PHONY : build
+#=======Size==================================
+size_of_file: project
+	$(SIZE) project
 
 #=======Upload the files to BBB=============
 upload: 
-	scp project root@10.0.0.215:/home/project_1
+	scp project root@10.0.0.215:/home/project_1	#The IP of the board will have to 								#be modified depending on the router being
 .PHONY : upload
 
-#=======Clean the files=====================Working but gives error if all files not present
+#=======Clean the files=====================
 clean: 
-	rm *.map *.out *.o *.s *.i *.exe 
+	rm $(IS) $(ASM_FILES) $(OBJ_FILES) project
 .PHONY : clean
 
-#=======Generates a library into archive========Working. Dont know meaning of cvq
+#=======Generates a library into archive========================================================
 build-lib:
-	ar cvq libproject.a memory.c data.c		
+	ar -c libproject.a -r memory.c data.c		
 .PHONY : build-lib
 

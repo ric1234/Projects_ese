@@ -1,4 +1,3 @@
-#C_FILES=project_1.c main.c memory.c data.c
 
 SRCS= \
   main.c \
