@@ -73,13 +73,9 @@ compile-all: $(OBJ_FILES)
 
 #=======Build all files and link===========
 
-<<<<<<< HEAD
-build: $(INCLUDES) $(OBJECT_FILES)
-	$(CC) $(OBJECT_FILES) -o project  
-=======
+
 build: $(INCLUDES) $(OBJ_FILES)
 	$(CC) $(OBJ_FILES) -o project
->>>>>>> 673297d6afba393a2f7392539c64d0acf563eb52
 .PHONY : build
 #=======Size==================================
 size_of_file: project
