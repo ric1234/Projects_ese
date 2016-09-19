@@ -86,8 +86,11 @@ size_of_file: project
 	$(SIZE) project
 
 #=======Upload the files to BBB=============
+#NOTE:
+#The IP of the board will have to be modified depending on the router 
+#===========================================
 upload: 
-	scp project root@10.0.0.215:/home/project_1	#The IP of the board will have to 								#be modified depending on the router being
+	scp project root@10.0.0.215:/home/project_1	
 .PHONY : upload
 
 #=======Clean the files=====================
