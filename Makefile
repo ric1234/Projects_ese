@@ -91,7 +91,7 @@ compile-all: $(OBJECT_FILES)
 #=======Build all files and link============Working
 
 build: $(INCLUDES) $(OBJECT_FILES)
-	$(CC) $(OBJECT_FILES) -o project -M 
+	$(CC) $(OBJECT_FILES) -o project  
 .PHONY : build
 
 #=======Upload the files to BBB=============
