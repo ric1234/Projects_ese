@@ -8,7 +8,7 @@ void log_0(char* data, uint32_t l);
 void log_1(char* data, uint32_t l,uint32_t arch,uint32_t size);
 
    struct log {
-	char log_data[10];
+	char log_data[50];
 	uint32_t length;
 	uint32_t Architecture;
 	uint32_t DataType_size;

@@ -12,7 +12,7 @@
     float n = 233.007;
     ftoa(n, transfer, 3);
     #else
-  char transfer[]="omirocks";
+  char transfer[]="This is sparta";
   char *b=transfer;
   #endif
   while(*b!='\0')

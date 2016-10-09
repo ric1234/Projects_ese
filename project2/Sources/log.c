@@ -20,6 +20,7 @@ void log_0(char* data, uint32_t l)
   printf("%c",*b);
   b++;
  }
+ printf("\n");
  #endif
 }
 
@@ -47,5 +48,6 @@ void log_1(char* data, uint32_t l,uint32_t arch,uint32_t size)
   printf("%c",*b);
   b++;
  }
+ printf("\n");
  #endif
 }
