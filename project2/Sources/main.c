@@ -27,19 +27,16 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-#include "MKL25Z4.h"
-#include "uart.h"
-#include "data.h"
-#include "gpio.h"
+#include "main.h"
 
 int main(void)
 {
-	rgb_init();
+//	rgb_init();
 	uart0_init();
 	uart0_rx();
+	pwm_init();
 	while(1){
-		receive_data();
+		led_pwm();
 	}
     return 0;
 }

@@ -10,5 +10,6 @@
 
 void send_data(void);
 void receive_data(void);
+void led_pwm(void);
 
 #endif /* SOURCES_DATA_H_ */

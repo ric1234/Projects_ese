@@ -46,3 +46,58 @@ void receive_data(void)
 			}
 	while(!(UART0->S1 & 0x20))	{}
 }
+
+void led_pwm(void)
+{
+	char led_value;
+	while(!(UART0->S1 & 0x20))	{}
+	led_value = UART0->D;
+
+	if(led_value=='a'){
+	while(!(TPM0->CONTROLS[1].CnSC & 0x80))	{}
+	TPM0->CONTROLS[1].CnSC |= 0x80;
+	TPM0->CONTROLS[1].CnV = 0xFF00 ;
+	}
+
+	else if(led_value=='s'){
+		while(!(TPM0->CONTROLS[1].CnSC & 0x80))	{}
+		TPM0->CONTROLS[1].CnSC |= 0x80;
+		TPM0->CONTROLS[1].CnV = 0xDD00 ;
+		}
+
+	else if(led_value=='d'){
+			while(!(TPM0->CONTROLS[1].CnSC & 0x80))	{}
+			TPM0->CONTROLS[1].CnSC |= 0x80;
+			TPM0->CONTROLS[1].CnV = 0xCC00 ;
+			}
+
+	else if(led_value=='f'){
+			while(!(TPM0->CONTROLS[1].CnSC & 0x80))	{}
+			TPM0->CONTROLS[1].CnSC |= 0x80;
+			TPM0->CONTROLS[1].CnV = 0xAA00 ;
+			}
+
+	else if(led_value=='g'){
+			while(!(TPM0->CONTROLS[1].CnSC & 0x80))	{}
+			TPM0->CONTROLS[1].CnSC |= 0x80;
+			TPM0->CONTROLS[1].CnV = 0x9900 ;
+			}
+
+	else if(led_value=='h'){
+			while(!(TPM0->CONTROLS[1].CnSC & 0x80))	{}
+			TPM0->CONTROLS[1].CnSC |= 0x80;
+			TPM0->CONTROLS[1].CnV = 0x5500 ;
+			}
+
+	else if(led_value=='j'){
+			while(!(TPM0->CONTROLS[1].CnSC & 0x80))	{}
+			TPM0->CONTROLS[1].CnSC |= 0x80;
+			TPM0->CONTROLS[1].CnV = 0x3300 ;
+			}
+
+	else if(led_value=='k'){
+			while(!(TPM0->CONTROLS[1].CnSC & 0x80))	{}
+			TPM0->CONTROLS[1].CnSC |= 0x80;
+			TPM0->CONTROLS[1].CnV = 0x00FF ;
+			}
+}
