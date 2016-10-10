@@ -31,12 +31,15 @@
 
 int main(void)
 {
-//	rgb_init();
-	uart0_init();
-	uart0_rx();
-	pwm_init();
+
+	rgb_init();
+	//uart0_init();
+	//uart0_tx();
+	//rgb_pwm_init();
+	profile_timer_init();
+	//print_string("\r\nHello World\n\r");
 	while(1){
-		led_pwm();
+		timer_check();
 	}
     return 0;
 }

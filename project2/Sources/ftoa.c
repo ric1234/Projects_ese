@@ -53,12 +53,12 @@ void ftoa(float n, char *res, int afterpoint)
         // Get the value of fraction part upto given no.
         // of points after dot. The third parameter is needed
         // to handle cases like 233.007
-        fpart = fpart * pow(10, afterpoint);
+        fpart = fpart * power(10, afterpoint);
         intToStr((int)fpart, res + i + 1, afterpoint);
     }
 }
 
-int pow(int a, int n)
+int power(int a, int n)
 {
   int i,b=1;
   for(i=0;i<n;i++)

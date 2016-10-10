@@ -5,6 +5,7 @@
  *      Author: richa
  */
 #include "MKL25Z4.h"
+#include "data.h"
 void uart0_init(void)
 {
 	SIM->SCGC4 |= 0x0400;		//Enable clock for UART0
@@ -34,3 +35,12 @@ void uart0_rx(void)
 	PORTA->PCR[1] |= 0x0200;	//make PTA2 UART0 receiver pin
 
 }
+
+void print_string(char *ptr_str, uint32_t len)
+{
+	int i;
+	for(i=0;i<len;i++)
+		{send_data(*ptr_str++);
+		}
+}
+

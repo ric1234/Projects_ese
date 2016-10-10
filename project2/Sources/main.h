@@ -13,7 +13,11 @@
 #include "data.h"
 #include "gpio.h"
 #include "pwm.h"
+#include "rgb_pwm_init.h"
+#include "profile.h"
 
+ int BRIGHTNESS;
+int COUNT;
 
 
 #endif /* SOURCES_MAIN_H_ */

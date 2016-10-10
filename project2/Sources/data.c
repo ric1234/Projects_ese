@@ -7,21 +7,14 @@
 #include "MKL25Z4.h"
 #include "delay.h"
 #include "gpio.h"
+#include "rgb_pwm_init.h"
+#include "main.h"
 
-void send_data(void)
+void send_data(char character)
 {
+	UART0->D = (uint8_t)character;
 	while(!(UART0->S1 & 0x80))	{}
-	UART0->D = 'R';
-	while(!(UART0->S1 & 0x80)) 	{}
-	UART0->D = 'I';
-	while(!(UART0->S1 & 0x80)) 	{}
-	UART0->D = 'C';
-	while(!(UART0->S1 & 0x80)) 	{}
-	UART0->D = ' ';
-	while(!(UART0->S1 & 0x80)) 	{}
-	delayMs(10);
 }
-
 void receive_data(void)
 {	char c;
 	while(!(UART0->S1 & 0x20))	{}
@@ -53,51 +46,30 @@ void led_pwm(void)
 	while(!(UART0->S1 & 0x20))	{}
 	led_value = UART0->D;
 
-	if(led_value=='a'){
-	while(!(TPM0->CONTROLS[1].CnSC & 0x80))	{}
-	TPM0->CONTROLS[1].CnSC |= 0x80;
-	TPM0->CONTROLS[1].CnV = 0xFF00 ;
+	rgb_pwm_control(led_value);
+
+ if(led_value=='o')
+	{
+	BRIGHTNESS = (BRIGHTNESS + 0x1000);
+
+	while(!(TPM2->CONTROLS[0].CnSC & 0x80))	{}
+	TPM2->CONTROLS[0].CnSC |= 0x80;
+	TPM2->CONTROLS[0].CnV = BRIGHTNESS ;
 	}
+ else if(led_value=='p')
+ 	{
+ 	BRIGHTNESS=(BRIGHTNESS-0x1000);
+ 	while(!(TPM2->CONTROLS[0].CnSC & 0x80))	{}
+ 	TPM2->CONTROLS[0].CnSC |= 0x80;
+ 	TPM2->CONTROLS[0].CnV = BRIGHTNESS ;
+ 	}
+
+	else if(led_value=='a'){
+		TPM2->SC = 0;}
 
 	else if(led_value=='s'){
-		while(!(TPM0->CONTROLS[1].CnSC & 0x80))	{}
-		TPM0->CONTROLS[1].CnSC |= 0x80;
-		TPM0->CONTROLS[1].CnV = 0xDD00 ;
-		}
+		TPM2->SC = 0;}
 
 	else if(led_value=='d'){
-			while(!(TPM0->CONTROLS[1].CnSC & 0x80))	{}
-			TPM0->CONTROLS[1].CnSC |= 0x80;
-			TPM0->CONTROLS[1].CnV = 0xCC00 ;
-			}
-
-	else if(led_value=='f'){
-			while(!(TPM0->CONTROLS[1].CnSC & 0x80))	{}
-			TPM0->CONTROLS[1].CnSC |= 0x80;
-			TPM0->CONTROLS[1].CnV = 0xAA00 ;
-			}
-
-	else if(led_value=='g'){
-			while(!(TPM0->CONTROLS[1].CnSC & 0x80))	{}
-			TPM0->CONTROLS[1].CnSC |= 0x80;
-			TPM0->CONTROLS[1].CnV = 0x9900 ;
-			}
-
-	else if(led_value=='h'){
-			while(!(TPM0->CONTROLS[1].CnSC & 0x80))	{}
-			TPM0->CONTROLS[1].CnSC |= 0x80;
-			TPM0->CONTROLS[1].CnV = 0x5500 ;
-			}
-
-	else if(led_value=='j'){
-			while(!(TPM0->CONTROLS[1].CnSC & 0x80))	{}
-			TPM0->CONTROLS[1].CnSC |= 0x80;
-			TPM0->CONTROLS[1].CnV = 0x3300 ;
-			}
-
-	else if(led_value=='k'){
-			while(!(TPM0->CONTROLS[1].CnSC & 0x80))	{}
-			TPM0->CONTROLS[1].CnSC |= 0x80;
-			TPM0->CONTROLS[1].CnV = 0x00FF ;
-			}
+		TPM0->SC = 0;}
 }

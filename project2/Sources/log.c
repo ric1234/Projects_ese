@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "log.h"
+#include "uart.h"
 
 void log_0(char* data, uint32_t l)
 {
@@ -22,6 +23,9 @@ void log_0(char* data, uint32_t l)
  }
  printf("\n");
  #endif
+#if FRDM
+ print_string(logger.log_data, logger.length);
+#endif
 }
 
 void log_1(char* data, uint32_t l,uint32_t arch,uint32_t size)
@@ -50,4 +54,7 @@ void log_1(char* data, uint32_t l,uint32_t arch,uint32_t size)
  }
  printf("\n");
  #endif
+#if FRDM
+ print_string(logger.log_data, logger.length);
+#endif
 }

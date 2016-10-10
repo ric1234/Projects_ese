@@ -8,7 +8,7 @@
 #ifndef SOURCES_DATA_H_
 #define SOURCES_DATA_H_
 
-void send_data(void);
+void send_data(char character);
 void receive_data(void);
 void led_pwm(void);
 
