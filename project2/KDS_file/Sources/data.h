@@ -9,7 +9,7 @@
 #define SOURCES_DATA_H_
 
 void send_data(char character);
-void receive_data(void);
+void receive_data(char* c);
 void led_pwm(void);
 
 #endif /* SOURCES_DATA_H_ */

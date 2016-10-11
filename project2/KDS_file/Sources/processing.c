@@ -1,14 +1,11 @@
 
 #include <stdio.h>
 #include <stdint.h>
-#include "log.h"
-#include "ftoa.h"
-#include "uart.h"
 #include "main.h"
 
 
 #if 0
- int main()
+ void processing()
 {
 	 uart0_init();
 	 uart0_tx();
@@ -28,18 +25,17 @@
   b++;
   }
   size=sizeof(char);
-  #if FRDM
+  #ifdef FRDM
   Arch=1;
-  #else
+ #endif
+#ifdef BBB
   Arch=2;
   #endif
   #if LOGGER
   log_1(transfer,len,Arch,size);
   #else
   print_string(logger.log_data, logger.length);
- /* uart code*/
   #endif
-  return 0 ;
 }
 #endif
 

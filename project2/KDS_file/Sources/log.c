@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include "log.h"
 #include "uart.h"
+#include "main.h"
 
 void log_0(char* data, uint32_t l)
 {
@@ -15,7 +16,7 @@ void log_0(char* data, uint32_t l)
 }
   b=logger.log_data;
   logger.length=l;
-  #if BBB
+  #ifdef BBB
   for(i=0;i<logger.length;i++)
  {
   printf("%c",*b);
@@ -23,7 +24,7 @@ void log_0(char* data, uint32_t l)
  }
  printf("\n");
  #endif
-#if FRDM
+#ifdef FRDM
  print_string(logger.log_data, logger.length);
 #endif
 }
@@ -54,7 +55,7 @@ void log_1(char* data, uint32_t l,uint32_t arch,uint32_t size)
  }
  printf("\n");
  #endif
-#if FRDM
+#ifdef FRDM
  print_string(logger.log_data, logger.length);
 #endif
 }

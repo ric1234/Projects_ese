@@ -29,17 +29,22 @@
  */
 #include "main.h"
 
+
 int main(void)
 {
 
-	rgb_init();
-	//uart0_init();
-	//uart0_tx();
+	//rgb_init();
+	uart0_init();
+	uart0_tx();
+	uart0_rx();
+	circBuff ();
+	//processing();
+
 	//rgb_pwm_init();
-	profile_timer_init();
-	//print_string("\r\nHello World\n\r");
+	//profile_timer_init();
+
 	while(1){
-		timer_check();
+
 	}
     return 0;
 }

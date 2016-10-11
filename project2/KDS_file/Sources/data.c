@@ -10,34 +10,38 @@
 #include "rgb_pwm_init.h"
 #include "main.h"
 
-void send_data(char character)
+void send_data(char character)		//Sends data as single character
 {
 	UART0->D = (uint8_t)character;
 	while(!(UART0->S1 & 0x80))	{}
 }
-void receive_data(void)
-{	char c;
+void receive_data(char* c)
+{	int i;
+   for(i=0;i<5;i++)
+   {
 	while(!(UART0->S1 & 0x20))	{}
-	c = UART0->D;
-	 if(c=='a')
-			{
-				BLUE_ON;
-				GREEN_OFF;
-				RED_OFF;
-			}
-			else if(c=='b')
-			{
-				GREEN_ON;
-				BLUE_OFF;
-				RED_OFF;
-			}
-			else if(c=='c')
-			{
-				RED_ON;
-				BLUE_OFF;
-				GREEN_OFF;
-			}
-	while(!(UART0->S1 & 0x20))	{}
+	*c = UART0->D;
+	c++;
+   }
+//	 if(c=='a')
+//			{
+//				BLUE_ON;
+//				GREEN_OFF;
+//				RED_OFF;
+//			}
+//			else if(c=='b')
+//			{
+//				GREEN_ON;
+//				BLUE_OFF;
+//				RED_OFF;
+//			}
+//			else if(c=='c')
+//			{
+//				RED_ON;
+//				BLUE_OFF;
+//				GREEN_OFF;
+//			}
+	//while(!(UART0->S1 & 0x20))	{}
 }
 
 void led_pwm(void)

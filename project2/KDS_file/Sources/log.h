@@ -1,9 +1,7 @@
 #ifndef _LOG_H
 #define _LOG_H
-#define BBB 0
-#define FRDM 1
+
 #define LOGGER 1
-#define FTOA 1
 void log_0(char* data, uint32_t l);
 void log_1(char* data, uint32_t l,uint32_t arch,uint32_t size);
 
