@@ -32,16 +32,38 @@
 
 int main(void)
 {
-
+	char abc;
+	__disable_irq();
 	//rgb_init();
 	uart0_init();
 	uart0_tx();
-	uart0_rx();
-	circBuff ();
+	//uart0_rx();
+	//circBuff ();
 	//processing();
-
+	//__enable_irq();
 	//rgb_pwm_init();
-	//profile_timer_init();
+
+	profile_timer_init();
+
+
+	timer_print();
+
+	timer_on();
+	delayMs(100);
+	timer_off();
+	timer_print();
+
+	timer_reset();
+	timer_print();
+
+
+	timer_on();
+	delayMs(100);
+	timer_off();
+	timer_print();
+	timer_reset();
+	timer_print();
+
 
 	while(1){
 

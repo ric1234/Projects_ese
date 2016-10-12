@@ -14,6 +14,5 @@ void uart0_rx(void);
 void print_string(char *ptr_str, uint32_t len);
 void print_stringl(char *ptr);
 
-void receive_string(char *ptr_str, uint32_t len);
 
 #endif /* SOURCES_UART_H_ */

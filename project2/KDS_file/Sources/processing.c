@@ -3,9 +3,7 @@
 #include <stdint.h>
 #include "main.h"
 
-
-#if 0
- void processing()
+void processing()
 {
 	 uart0_init();
 	 uart0_tx();
@@ -37,7 +35,6 @@
   print_string(logger.log_data, logger.length);
   #endif
 }
-#endif
 
  
 

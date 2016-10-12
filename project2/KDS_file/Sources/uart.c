@@ -30,7 +30,9 @@ void uart0_rx(void)
 	UART0->BDL = 0x17;			//Lower bit of baud
 	UART0->C4 = 0x0F;			//OSR = 16;
 	UART0->C1 = 0x00;			//8 bit data
-	UART0->C2 |= 0x04;			//Start the uart enable receive
+	UART0->C2 |= 0x04;			//Start the uart enable receive and enable the receive interrupt
+	//UART0->C2 |= 0x20;
+	//NVIC->ISER[0]=0x00001000;	//enable INT12 ie uart0 interrupt
 	SIM->SCGC5 |=0X0200;		//Clock for port A
 	PORTA->PCR[1] |= 0x0200;	//make PTA1 UART0 receiver pin
 
@@ -56,4 +58,11 @@ void print_string(char *ptr_str, uint32_t len)
 		}
 }
 
+void UART0_IRQHandler(void)
+{
+	char c;
+	c = UART0->D;
+	RED_ON;
+	delayMs(1000);
+}
 

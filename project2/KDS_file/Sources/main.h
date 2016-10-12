@@ -27,7 +27,6 @@
 #include "log.h"
 
  int BRIGHTNESS;
-int COUNT;
 void processing();
 int tests();
 
