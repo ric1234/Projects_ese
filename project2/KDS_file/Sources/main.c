@@ -27,25 +27,32 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+/*
+ * main.c
+ *
+ * Created on: Sept 26, 2016
+ *     Author: Richard Noronha and Omkar Purandare
+ *  University:University of Colorado Boulder
+ *      Course: ECEN Fall 2016
+ */
 #include "main.h"
 
 
 int main(void)
 {
-	char abc;
+	//char abc;
 	__disable_irq();
 	//rgb_init();
 	uart0_init();
 	uart0_tx();
-	//uart0_rx();
+	uart0_rx();
 	//circBuff ();
 	//processing();
-	//__enable_irq();
-	//rgb_pwm_init();
-
-	profile_timer_init();
+	rgb_pwm_init();
+	__enable_irq();
 
 
+	/*profile_timer_init();
 	timer_print();
 
 	timer_on();
@@ -62,8 +69,9 @@ int main(void)
 	timer_off();
 	timer_print();
 	timer_reset();
-	timer_print();
+	timer_print();*/
 
+char abc;
 
 	while(1){
 

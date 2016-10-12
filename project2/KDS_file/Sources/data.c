@@ -1,79 +1,43 @@
 /*
  * data.c
  *
- *  Created on: Oct 7, 2016
- *      Author: richa
+ * Created on: Oct 7, 2016
+ *     Author: Richard Noronha and Omkar Purandare
+ *  University:University of Colorado Boulder
+ *      Course: ECEN Fall 2016
  */
-#include "MKL25Z4.h"
-#include "delay.h"
-#include "gpio.h"
-#include "rgb_pwm_init.h"
-#include "main.h"
+/*Description: Contains functions which are used for sending characters of data across the uart*/
+#include "data.h"
 
-void send_data(char character)		//Sends data as single character
+/*Sends data as single character*/
+void send_data(char character)
 {
-	UART0->D = (uint8_t)character;
-	while(!(UART0->S1 & 0x80))	{}
-}
-void receive_data(char* c)
-{	int i;
-   for(i=0;i<5;i++)
-   {
-	while(!(UART0->S1 & 0x20))	{}
-	*c = UART0->D;
-	c++;
-   }
-//	 if(c=='a')
-//			{
-//				BLUE_ON;
-//				GREEN_OFF;
-//				RED_OFF;
-//			}
-//			else if(c=='b')
-//			{
-//				GREEN_ON;
-//				BLUE_OFF;
-//				RED_OFF;
-//			}
-//			else if(c=='c')
-//			{
-//				RED_ON;
-//				BLUE_OFF;
-//				GREEN_OFF;
-//			}
-	//while(!(UART0->S1 & 0x20))	{}
+	UART0->D = (uint8_t)character;						//Move the character to the Uart data buffer
+	while(!(UART0->S1 & 0x80))	{}						//Wait for the transmit to take place
 }
 
-void led_pwm(void)
+/*Receive data from the uart channel. Needs a destination to point to*/
+int receive_data(char* c)
 {
-	char led_value;
+	int i,len;
+	for(i=0;i<5;i++)									//Take in 5 characters
+		{
+			while(!(UART0->S1 & 0x20))	{}				//Wait for the characters to be input
+			if(UART0->D==13)							//Break if Return key is pressed
+					break;
+			*c = UART0->D;
+			c++;
+			len;
+		}
+	return len;
+}
+
+/*Blocking function for UART*/
+char receive_data_char(void)
+{
+	char c,*m;
+	m=&c;
 	while(!(UART0->S1 & 0x20))	{}
-	led_value = UART0->D;
-
-	rgb_pwm_control(led_value);
-
- if(led_value=='o')
-	{
-	BRIGHTNESS = (BRIGHTNESS + 0x1000);
-
-	while(!(TPM2->CONTROLS[0].CnSC & 0x80))	{}
-	TPM2->CONTROLS[0].CnSC |= 0x80;
-	TPM2->CONTROLS[0].CnV = BRIGHTNESS ;
-	}
- else if(led_value=='p')
- 	{
- 	BRIGHTNESS=(BRIGHTNESS-0x1000);
- 	while(!(TPM2->CONTROLS[0].CnSC & 0x80))	{}
- 	TPM2->CONTROLS[0].CnSC |= 0x80;
- 	TPM2->CONTROLS[0].CnV = BRIGHTNESS ;
- 	}
-
-	else if(led_value=='a'){
-		TPM2->SC = 0;}
-
-	else if(led_value=='s'){
-		TPM2->SC = 0;}
-
-	else if(led_value=='d'){
-		TPM0->SC = 0;}
+	c = UART0->D;
+	print(m);
 }

@@ -2,7 +2,9 @@
  * gpio.h
  *
  *  Created on: Oct 6, 2016
- *      Author: richa
+ *     Author: Richard Noronha and Omkar Purandare
+ *  University:University of Colorado Boulder
+ *      Course: ECEN Fall 2016
  */
 
 #ifndef SOURCES_GPIO_H_

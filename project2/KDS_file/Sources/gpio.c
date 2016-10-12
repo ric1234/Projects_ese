@@ -2,42 +2,31 @@
  * gpio.c
  *
  *  Created on: Oct 6, 2016
- *      Author: richa
+*      Author: Richard Noronha and Omkar Purandare
+ *  University:University of Colorado Boulder
+ *      Course: ECEN Fall 2016
  */
-
+/*Description: This fiile includes the function to initialize the LED [in in gpio mode.
+ * This is mainly used for testing code
+ */
 #include "gpio.h"
 
 void rgb_init(void)
 {
-	/* Turn on clock to PortB and PortD module */
-	SIM_SCGC5 |= SIM_SCGC5_PORTB_MASK|SIM_SCGC5_PORTD_MASK;
 
-	/* Set the PTB18 pin multiplexer to GPIO mode */
-	PORTB_PCR18 = PORT_PCR_MUX(1);
+	SIM_SCGC5 |= SIM_SCGC5_PORTB_MASK|SIM_SCGC5_PORTD_MASK;		/* Turn on clock to PortB and PortD module */
 
-	/* Set the initial output state to high */
-	GPIOB_PSOR |= RED_SHIFT;
+	PORTB_PCR18 = PORT_PCR_MUX(1);								/* Set the PTB18 pin multiplexer to GPIO mode */
+	GPIOB_PSOR |= RED_SHIFT;									/* Set the initial output state to high */
+	GPIOB_PDDR |= RED_SHIFT;									/* Set the pins direction to output */
 
-	/* Set the pins direction to output */
-	GPIOB_PDDR |= RED_SHIFT;
+	PORTB_PCR19 = PORT_PCR_MUX(1);								/* Set the PTB19 pin multiplexer to GPIO mode */
+	GPIOB_PSOR |= GREEN_SHIFT;									/* Set the initial output state to high */
+	GPIOB_PDDR |= GREEN_SHIFT;									/* Set the pins direction to output */
 
-	/* Set the PTB19 pin multiplexer to GPIO mode */
-	PORTB_PCR19 = PORT_PCR_MUX(1);
-
-	/* Set the initial output state to high */
-	GPIOB_PSOR |= GREEN_SHIFT;
-
-	/* Set the pins direction to output */
-	GPIOB_PDDR |= GREEN_SHIFT;
-
-	/* Set the PTD1 pin multiplexer to GPIO mode */
-	PORTD_PCR1 = PORT_PCR_MUX(1);
-
-	/* Set the initial output state to high */
-	GPIOD_PSOR = BLUE_SHIFT;
-
-	/* Set the pins direction to output */
-	GPIOD_PDDR |= BLUE_SHIFT;
+	PORTD_PCR1 = PORT_PCR_MUX(1);								/* Set the PTD1 pin multiplexer to GPIO mode */
+	GPIOD_PSOR = BLUE_SHIFT;									/* Set the initial output state to high */
+	GPIOD_PDDR |= BLUE_SHIFT;									/* Set the pins direction to output */
 
 }
 
