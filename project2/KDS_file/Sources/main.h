@@ -20,7 +20,7 @@
 
 #include "MKL25Z4.h"
 #include "uart.h"
-#include "data.h"
+#include "io.h"
 #include "gpio.h"
 #include "rgb_pwm_init.h"
 #include "profile.h"
@@ -33,6 +33,6 @@ int BRIGHTNESS;
 char color;
 void processing();
 int tests();
-
+void Specialprocessing();
 
 #endif /* SOURCES_MAIN_H_ */

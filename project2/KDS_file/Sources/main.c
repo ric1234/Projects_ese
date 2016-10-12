@@ -40,38 +40,20 @@
 
 int main(void)
 {
-	//char abc;
-	__disable_irq();
-	//rgb_init();
-	uart0_init();
-	uart0_tx();
-	uart0_rx();
-	//circBuff ();
-	//processing();
-	rgb_pwm_init();
-	__enable_irq();
-
-
-	/*profile_timer_init();
-	timer_print();
-
-	timer_on();
-	delayMs(100);
-	timer_off();
-	timer_print();
-
-	timer_reset();
-	timer_print();
-
-
-	timer_on();
-	delayMs(100);
-	timer_off();
-	timer_print();
-	timer_reset();
-	timer_print();*/
-
-char abc;
+	/*main gives the user option to use the code he/she would like to run*/
+	/*remember to initialize the things before using them*/
+	/*you can select the architecture to compile for in the main.h*/
+	__disable_irq();  //function for disabling the interrupts
+	//rgb_init();     //function for initializing the rgb leds
+	uart0_init();     //function for initializing the rgb leds
+	uart0_tx();       //function for initializing the transmit data
+	uart0_rx();       //function for initializing the receive data
+//	profile_timer_init();   //function for initializing the time profiling
+	//circBuff ();         //function for selecting the circular buffer code
+	//processing();        //function for selecting the ftoa code
+	//Specialprocessing(); //function for selecting code to printing out concatenated string
+	rgb_pwm_init();        //function for initializing pwm for leds
+	__enable_irq();        //function for enabling the interrupts
 
 	while(1){
 

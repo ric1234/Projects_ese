@@ -7,7 +7,7 @@
  *      Course: ECEN Fall 2016
  */
 /*Description: Contains functions which are used for sending characters of data across the uart*/
-#include "data.h"
+#include "io.h"
 
 /*Sends data as single character*/
 void send_data(char character)

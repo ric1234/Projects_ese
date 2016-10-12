@@ -10,15 +10,16 @@
 
 void log_0(char* data, uint32_t l)
 {
+	/*the logger is described as the a structure*/
 	char*b;
 	int i;
-	for(i=0;i<l;i++)
+	for(i=0;i<l;i++)  /*transfering the string into logger*/
 	{
 		logger.log_data[i]=*data;
 		data++;
 	}
 	b=logger.log_data;
-	logger.length=l;
+	logger.length=l;    /*storing length in logger*/
 #ifdef BBB
 for(i=0;i<logger.length;i++)
 	{
@@ -37,17 +38,17 @@ void log_1(char* data, uint32_t l,uint32_t arch,uint32_t size)
 {
 	char*b;
 	int i;
-	for(i=0;i<l;i++)
+	for(i=0;i<l;i++)                    /*transfering the string into logger*/
 		{
 			logger.log_data[i]=*data;
 			data++;
 		}
 	b=logger.log_data;
-	logger.length=l;
-	logger.DataType_size=size;
-	logger.Architecture= arch;
+	logger.length=l;             /*storing length in logger*/
+	logger.DataType_size=size;  //storing data type size
+	logger.Architecture= arch;  //storing the architecture type for which code is compiled
 	if(logger.Architecture==1)
-		Arc=KL25Z;
+		Arc=KL25Z;                //using enum to determine the board
 	else
 		Arc=Beagle;
 
