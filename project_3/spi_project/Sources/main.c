@@ -43,15 +43,25 @@ int main(void)
 
 	/*you can select the architecture to compile for in the main.h*/
 	//__disable_irq();  //function for disabling the interrupts
+	/*
 	uart0_init();     //function for initializing the rgb leds
-	uart0_tx();       //function for initializing the transmit data
+	uart0_tx();       //function for initializing the transmit data*/
 	//uart0_rx();       //function for initializing the receive data
-    profile_timer_init();   //function for initializing the time profiling
+    /*profile_timer_init();   //function for initializing the time profiling*/
 	//__enable_irq();        //function for enabling the interrupts
 	//dma_memmove();         //test memmove based on dma
-	dma_memzero();         //test memmove based on dma
-	while(1){
+	/*dma_memzero();         //test memmove based on dma*/
 
+	//Initialize Spi as a master
+	spi_init();
+	spi_master();
+	/**************************/
+	while(1)
+	{
+		nrf_config_tx();
+
+
+		delay_us(500);
 	}
     return 0;
 }

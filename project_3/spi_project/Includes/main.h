@@ -21,6 +21,11 @@
 #include "profile.h"
 #include"ftoa.h"
 #include"dma.h"
+
+#include "spi.h"
+#include "delay.h"
+#include "NRF24L01.h"
+
 void dma_initialization(void);
 
 

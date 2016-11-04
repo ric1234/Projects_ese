@@ -4,27 +4,36 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Sources/NRF24L01.c \
+../Sources/delay.c \
 ../Sources/dma.c \
 ../Sources/ftoa.c \
 ../Sources/io.c \
 ../Sources/main.c \
 ../Sources/profile.c \
+../Sources/spi.c \
 ../Sources/uart.c 
 
 OBJS += \
+./Sources/NRF24L01.o \
+./Sources/delay.o \
 ./Sources/dma.o \
 ./Sources/ftoa.o \
 ./Sources/io.o \
 ./Sources/main.o \
 ./Sources/profile.o \
+./Sources/spi.o \
 ./Sources/uart.o 
 
 C_DEPS += \
+./Sources/NRF24L01.d \
+./Sources/delay.d \
 ./Sources/dma.d \
 ./Sources/ftoa.d \
 ./Sources/io.d \
 ./Sources/main.d \
 ./Sources/profile.d \
+./Sources/spi.d \
 ./Sources/uart.d 
 
 
