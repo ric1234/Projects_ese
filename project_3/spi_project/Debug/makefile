@@ -51,7 +51,7 @@ all: spi_project.elf secondary-outputs
 spi_project.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross ARM C++ Linker'
-	arm-none-eabi-g++ -mcpu=cortex-m0plus -mthumb -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections  -g3 -T "MKL25Z128xxx4_flash.ld" -Xlinker --gc-sections -L"C:/Users/richa/Desktop/spi_project/Project_Settings/Linker_Files" -Wl,-Map,"spi_project.map" -specs=nano.specs -specs=nosys.specs -o "spi_project.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-g++ -mcpu=cortex-m0plus -mthumb -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections  -g3 -T "MKL25Z128xxx4_flash.ld" -Xlinker --gc-sections -L"C:/Users/omkar/Desktop/Projects_ese/project_3/spi_project/Project_Settings/Linker_Files" -Wl,-Map,"spi_project.map" -specs=nano.specs -specs=nosys.specs -o "spi_project.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

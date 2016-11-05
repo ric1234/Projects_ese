@@ -19,6 +19,9 @@
 #include "uart.h"
 #include "io.h"
 #include "profile.h"
+#include "message.h"
+#include"colors.h"
+#include"rgb_pwm_init.h"
 #include"ftoa.h"
 #include"dma.h"
 

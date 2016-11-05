@@ -38,6 +38,7 @@ char receive_data_char(void)
 	while(!(UART0->S1 & 0x20))	{}
 	c = UART0->D;
 	print(m);
+	return c;
 }
 
 
