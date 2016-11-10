@@ -42,8 +42,8 @@ void spi_master(void)
 	SPI0_C2 |= 0x10;					//MODFEN=1		SS is automatic output
 	SPI0_BR |= 0x60;					//Baud rate is selected
 
-	//SPE =1 ie Put spi on
-	SPI0_C1 |= 0x40;					//Startb the spi
+
+	SPI0_C1 |= 0x40;					//Start the spi  //SPE =1 ie Put spi on
 
 }
 

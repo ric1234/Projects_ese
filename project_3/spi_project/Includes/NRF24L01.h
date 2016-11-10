@@ -1,14 +1,16 @@
 /*
- * NRF24L01.h
+ * NRF24L01.c
  *
  *  Created on: Oct 27, 2016
- *      Author: richa
+ *      Author: Richard Noronha and Omkar Purandare
+ *      Description: This file contains all the functions related to the NRF24L01+ module
  */
 
 #ifndef INCLUDES_NRF24L01_H_
 #define INCLUDES_NRF24L01_H_
 
 #include "spi.h"
+#include "delay.h"
 
 //SPI command defines
 #define nrf24l01_R_REGISTER		0x00
@@ -50,6 +52,7 @@
 #define nrf24l01_RX_PW_P4		0x15
 #define nrf24l01_RX_PW_P5		0x16
 #define nrf24l01_FIFO_STATUS	0x17
+#define nrf24l01_DYNPD			0x1C
 
 //CONFIG register bitwise definitions
 #define nrf24l01_CONFIG_RESERVED	0x80
@@ -74,16 +77,32 @@ typedef struct FRDM_Packet{
 
 void nrf_cmd_send(FRDM_p * p);
 void nrf_config_tx(void);
+void nrf_config_tx_read(void);
 void nrf_config_rx(void);
 void nrf_status(void);
+void nrf_tx_write(void);
 void nrf_tx_read(void);
-void nrf_rx_addr_p1(void);
-void nrf_rx_fifo(void);
-void nrf_tx_fifo(void);
-
-void nrf_flush_tx(void);
+void nrf_rf_setup_write(void);
+void nrf_rf_setup_read(void);
 void nrf_fifo_status(void);
+void nrf_tx_fifo(void);
+void nrf_rx_fifo(void);
+
+void nrf_rx_addr_p1(void);
+void nrf_flush_tx(void);
 void nrf_rd_addr_p0(void);
+
+void nrf_config_rx_crc(void);
+void nrf_dynpd(void);
+void nrf_status_dr(void);
+void nrf_channel(void);
+void nrf_r_rx_payload(void);
+void nrf_test(void);
+void nrf_air_rx(void);
+void disable_autoack(void);
+void setup_address_witdh(void);
+void setup_data_rate(void);
+void setup_pipe_width_p0(void);
 
 
 

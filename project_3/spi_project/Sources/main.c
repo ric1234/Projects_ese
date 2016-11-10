@@ -53,15 +53,25 @@ int main(void)
 	/*dma_memzero();          //test memmove based on dma*/
 	Response msg= message_functions(); //calling messaging interface for pwm
 	//Initialize Spi as a master
-	//spi_init();
-	//spi_master();
+	spi_init();
+	spi_master();
 	/**************************/
 	while(1)
 	{
-		nrf_config_tx();
+		//nrf_config_tx();
+		//delay_us(500);
 
+		/*//For required elements:
+		 nrf_test();
+		 */
 
-		delay_us(500);
+		/*Extra Credit: Set as receiver nrf module*/
+		/*nrf_air_rx();
+		while(1)
+		{
+			nrf_fifo_status();
+
+		}*/
 	}
     return 0;
 }
