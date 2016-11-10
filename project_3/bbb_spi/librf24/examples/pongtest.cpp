@@ -26,17 +26,16 @@
 
 RF24 radio(115, 117);
 
-
 // sets the role of this unit in hardware.  Connect to GND to be the 'pong' receiver
 // Leave open to be the 'ping' transmitter
-//const int role_pin = 7;
+const int role_pin = 7;
 
 //
 // Topology
 //
 
 // Radio pipe addresses for the 2 nodes to communicate.
-//const uint64_t pipes[2] = { 0xF0F0F0F0E1LL, 0xF0F0F0F0D2LL };
+const uint64_t pipes[2] = { 0xF0F0F0F0E1LL, 0xF0F0F0F0D2LL };
 
 //
 // Role management
@@ -52,47 +51,106 @@ RF24 radio(115, 117);
 typedef enum { role_ping_out = 1, role_pong_back } role_e;
 
 // The debug-friendly names of those roles
-//const char* role_friendly_name[] = { "invalid", "Ping out", "Pong back"};
+const char* role_friendly_name[] = { "invalid", "Ping out", "Pong back"};
 
 // The role of the current running sketch
-//role_e role;
+role_e role;
 
 void setup(void)
 {
+  //
+  // Role
+  //
+
+  // set up the role pin
+ // pinMode(role_pin, INPUT);
+  //digitalWrite(role_pin,HIGH);
+ // delay(20); // Just to get a solid reading on the role pin
+
+  // read the address pin, establish our role
+  //if ( ! digitalRead(role_pin) )
   //  role = role_ping_out;
-  printf("\n\rBeginning the setup\n\r");
+  //else
+    role = role_pong_back;
+
+  //
+  // Print preamble:
+  //
+
+  //Serial.begin(115200);
+  //printf_begin();
+  printf("\n\rRF24/examples/pingpair/\n\r");
+  printf("ROLE: %s\n\r",role_friendly_name[role]);
+
+  //
+  // Setup and configure rf radio
+  //
+
   radio.begin();
 
   // optionally, increase the delay between retries & # of retries
- // radio.setRetries(15,15);
+  radio.setRetries(15,15);
 
- // radio.setChannel(0x4c);
- // radio.setPALevel(RF24_PA_MAX);
+  // optionally, reduce the payload size.  seems to
+  // improve reliability
+//  radio.setPayloadSize(8);
+ radio.setChannel(0x4c);
+     radio.setPALevel(RF24_PA_LOW);
 
- 
-   // radio.openWritingPipe(pipes[0]);
-    //radio.openReadingPipe(1,pipes[1]);
-    // radio.startListening();
+  //
+  // Open pipes to other nodes for communication
+  //
+
+  // This simple sketch opens two pipes for these two nodes to communicate
+  // back and forth.
+  // Open 'our' pipe for writing
+  // Open the 'other' pipe for reading, in position #1 (we can have up to 5 pipes open for reading)
+
+  if ( role == role_ping_out )
+  {
+    radio.openWritingPipe(pipes[0]);
+    radio.openReadingPipe(1,pipes[1]);
+  }
+  else
+  {
+    radio.openWritingPipe(pipes[1]);
+    radio.openReadingPipe(1,pipes[0]);
+  }
+
+  //
+  // Start listening
+  //
+
+  radio.startListening();
+
+  //
+  // Dump the configuration of the rf unit for debugging
+  //
+
+  radio.printDetails();
 }
 
 void loop(void)
 {
-    // First, stop listening. CE is off and fifos are cleared
-   // radio.stopListening();
+  //
+  // Ping out role.  Repeatedly send the current time
+  //
+
+  if (role == role_ping_out)
+  {
+    // First, stop listening so we can talk.
+    radio.stopListening();
 
     // Take the time, and send it.  This will block until complete
-    char time = 'A';
-    printf("Now sending %c...",time);
-	//Sets up as transmitter
-    bool ok = radio.write( &time, sizeof(char) );
+    unsigned long time = __millis();
+    printf("Now sending %lu...",time);
+    bool ok = radio.write( &time, sizeof(unsigned long) );
     
     if (ok)
       printf("ok...");
     else
       printf("failed.\n\r");
 
-
-/*
     // Now, continue listening
     radio.startListening();
 
@@ -100,10 +158,12 @@ void loop(void)
     unsigned long started_waiting_at = __millis();
     bool timeout = false;
     while ( ! radio.available() && ! timeout ) {
-	__msleep(5); //add a small delay to let radio.available to check payload
+        // by bcatalin » Thu Feb 14, 2013 11:26 am
+        __msleep(5); //add a small delay to let radio.available to check payload
       if (__millis() - started_waiting_at > 200 )
         timeout = true;
     }
+
 
     // Describe the results
     if ( timeout )
@@ -123,6 +183,7 @@ void loop(void)
     // Try again 1s later
 //    delay(1000);
 sleep(1);
+  }
 
   //
   // Pong back role.  Receive each packet, dump it out, and send it back
@@ -159,16 +220,14 @@ sleep(1);
       // Now, resume listening so we catch the next packets.
       radio.startListening();
     }
-  }*/
+  }
 }
 
 int main(int argc, char** argv)
 {
         setup();
         while(1)
-	{
-        loop();
-	}
+                loop();
 
         return 0;
 }

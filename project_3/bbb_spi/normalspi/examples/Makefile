@@ -14,7 +14,7 @@
 prefix := /opt/librf24-examples
 
 # define all programs
-PROGRAMS = scanner pingtest pongtest
+PROGRAMS = pingtest
 SOURCES = ${PROGRAMS:=.cpp}
 
 all: ${PROGRAMS}

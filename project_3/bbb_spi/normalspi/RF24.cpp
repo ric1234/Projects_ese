@@ -102,10 +102,9 @@ uint8_t RF24::write_payload(const void* buf, uint8_t len)
 
   const uint8_t* current = reinterpret_cast<const uint8_t*>(buf);
 
-  //uint8_t data_len = min(len,payload_size);
-uint8_t data_len=1;
- // uint8_t blank_len = dynamic_payloads_enabled ? 0 : payload_size - data_len;
-  uint8_t blank_len = 1;
+  uint8_t data_len = min(len,payload_size);
+  uint8_t blank_len = dynamic_payloads_enabled ? 0 : payload_size - data_len;
+  
   //printf("[Writing %u bytes %u blanks]",data_len,blank_len);
   
   csn(LOW);
@@ -115,8 +114,6 @@ uint8_t data_len=1;
   while ( blank_len-- )
     spi->transfer(0);
   csn(HIGH);
-
-read_register(FIFO_STATUS);
 
   return status;
 }
@@ -355,39 +352,33 @@ void RF24::begin(void)
   // Technically we require 4.5ms + 14us as a worst case. We'll just call it 5ms for good measure.
   // WARNING: Delay is based on P-variant whereby non-P *may* require different timing.
   delay( 5 ) ;
- //setPALevel( RF24_PA_MAX ) ;
 
   // Set 1500uS (minimum for 32B payload in ESB@250KBPS) timeouts, to make testing a little easier
   // WARNING: If this is ever lowered, either 250KBS mode with AA is broken or maximum packet
   // sizes must never be used. See documentation for a more complete explanation.
-	
+  //write_register(SETUP_RETR,(0b0100 << ARD) | (0b1111 << ARC));
+
   // Restore our default PA level
- 
+  //setPALevel( RF24_PA_MAX ) ;
+
   // Determine if this is a p or non-p RF24 module and then
   // reset our data rate back to default value. This works
   // because a non-P variant won't allow the data rate to
   // be set to 250Kbps.
-/*  if( setDataRate( RF24_250KBPS ) )
+ /* if( setDataRate( RF24_250KBPS ) )
   {
     p_variant = true ;
   }*/
- 
-write_register(CONFIG, 0x0C);
- // Initialize CRC and request 2-byte (16bit) CRC
-  //setCRCLength( RF24_CRC_16 ) ;
-  //turn off ard and arc
- write_register(SETUP_RETR,(0b0000 << ARD) | (0b0010 << ARC));
-
-write_register(SETUP_AW, 0x03);
-
-write_register(RF_SETUP,0x07);
+  
   // Then set the data rate to the slowest (and most reliable) speed supported by all
   // hardware.
-  //setDataRate( RF24_1MBPS ) ;
-  write_register(RF_CH,0x4C);
+  /*setDataRate( RF24_1MBPS ) ;
 
+  // Initialize CRC and request 2-byte (16bit) CRC
+  setCRCLength( RF24_CRC_16 ) ;
+  
   // Disable dynamic payloads, to match dynamic_payloads_enabled setting
-//  write_register(DYNPD,0);
+  write_register(DYNPD,0);*/
 
   // Reset current status
   // Notice reset and flush is the last thing we do
@@ -398,33 +389,53 @@ write_register(RF_SETUP,0x07);
   // spectrum.
   //setChannel(76);
 
- // write_register(TX_ADDR,0xE7E7E7E7E7);
   // Flush buffers
-  flush_rx();
-  flush_tx();
-write_register(CONFIG, 0x0E);
+  //flush_rx();
+ // flush_tx();
 }
 
 /****************************************************************************/
 
 void RF24::startListening(void)
 {
-  //write_register(CONFIG, read_register(CONFIG) | _BV(PWR_UP) | _BV(PRIM_RX));
-  //write_register(STATUS, _BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT) );
+//Make transmitter
+ write_register(CONFIG, _BV(PWR_UP) | _BV(PRIM_RX));
+read_register(CONFIG);
+//Make receiver
+write_register(CONFIG, _BV(PWR_UP)); 
+read_register(CONFIG);
 
+//Status
+get_status();
+
+write_register(TX_ADDR, 0x22);
+read_register(TX_ADDR);
+
+//RF setup
+write_register(RF_SETUP, 0x0D);
+read_register(RF_SETUP);
+
+flush_tx();
+read_register(FIFO_STATUS);
+flush_rx();
+read_register(FIFO_STATUS);
+
+ // write_register(CONFIG, read_register(CONFIG) | _BV(PWR_UP) | _BV(PRIM_RX));
+  //write_register(STATUS, _BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT) );
+	/*
   // Restore the pipe0 adddress, if exists
- // if (pipe0_reading_address)
-   // write_register(RX_ADDR_P0, reinterpret_cast<const uint8_t*>(&pipe0_reading_address), 5);
+  if (pipe0_reading_address)
+    write_register(RX_ADDR_P0, reinterpret_cast<const uint8_t*>(&pipe0_reading_address), 5);
 
   // Flush buffers
   flush_rx();
-  flush_tx();
+  flush_tx();*/
 
   // Go!
-  ce(HIGH);
+ // ce(HIGH);
 
   // wait for the radio to come up (130us actually only needed)
-  delayMicroseconds(130);
+  delayMicroseconds(20);
 }
 
 /****************************************************************************/
@@ -456,15 +467,30 @@ bool RF24::write( const void* buf, uint8_t len )
 {
   bool result = false;
 
-read_register(CONFIG);
- flush_tx();
- //write_register(STATUS, 0x1E);
-
- read_register(FIFO_STATUS);
   // Begin the write
   startWrite(buf,len);
- read_register(FIFO_STATUS);
-  //while( ! ( STATUS & ( _BV(TX_DS) | _BV(MAX_RT) ) ) );
+
+  // ------------
+  // At this point we could return from a non-blocking write, and then call
+  // the rest after an interrupt
+
+  // Instead, we are going to block here until we get TX_DS (transmission completed and ack'd)
+  // or MAX_RT (maximum retries, transmission failed).  Also, we'll timeout in case the radio
+  // is flaky and we get neither.
+
+  // IN the end, the send should be blocking.  It comes back in 60ms worst case, or much faster
+  // if I tighted up the retry logic.  (Default settings will be 1500us.
+  // Monitor the send
+  uint8_t observe_tx;
+  uint8_t status;
+  uint32_t sent_at = __millis();
+  const uint32_t timeout = 500; //ms to wait for timeout
+  do
+  {
+    status = read_register(OBSERVE_TX,&observe_tx,1);
+    IF_SERIAL_DEBUG(printf(observe_tx,HEX));
+  }
+  while( ! ( status & ( _BV(TX_DS) | _BV(MAX_RT) ) ) && ( __millis() - sent_at < timeout ) );
 
   // The part above is what you could recreate with your own interrupt handler,
   // and then call this when you got an interrupt
@@ -475,7 +501,7 @@ read_register(CONFIG);
   // * The send was successful (TX_DS)
   // * The send failed, too many retries (MAX_RT)
   // * There is an ack packet waiting (RX_DR)
- /* bool tx_ok, tx_fail;
+  bool tx_ok, tx_fail;
   whatHappened(tx_ok,tx_fail,ack_payload_available);
   
   //printf("%u%u%u\r\n",tx_ok,tx_fail,ack_payload_available);
@@ -498,7 +524,7 @@ read_register(CONFIG);
 
   // Flush buffers (Is this a relic of past experimentation, and not needed anymore??)
   flush_tx();
-*/
+
   return result;
 }
 /****************************************************************************/
@@ -506,10 +532,12 @@ read_register(CONFIG);
 void RF24::startWrite( const void* buf, uint8_t len )
 {
   // Transmitter power-up
- // write_register(CONFIG, ( read_register(CONFIG) | _BV(PWR_UP) ) & ~_BV(PRIM_RX) );
- // delayMicroseconds(150);
+  write_register(CONFIG, ( read_register(CONFIG) | _BV(PWR_UP) ) & ~_BV(PRIM_RX) );
+  delayMicroseconds(150);
+
   // Send the payload
   write_payload( buf, len );
+
   // Allons!
   ce(HIGH);
   delayMicroseconds(15);
@@ -927,7 +955,7 @@ rf24_datarate_e RF24::getDataRate( void )
 
 void RF24::setCRCLength(rf24_crclength_e length)
 {
-  uint8_t config = 0x0E;  //read_register(CONFIG) & ~( _BV(CRCO) | _BV(EN_CRC)) ;
+  uint8_t config = read_register(CONFIG) & ~( _BV(CRCO) | _BV(EN_CRC)) ;
   
   // switch uses RAM (evil!)
   if ( length == RF24_CRC_DISABLED )
