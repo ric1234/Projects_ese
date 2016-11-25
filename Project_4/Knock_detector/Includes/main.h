@@ -27,6 +27,8 @@
 #include "adc.h"
 #include "spi.h"
 #include "delay.h"
+#include "accelerometer.h"
+#include "i2c.h"
 
 void dma_initialization(void);
 

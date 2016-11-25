@@ -18,3 +18,12 @@ void delay_us(int time)
 	TPM1->SC=0;
 	TPM1->CNT = 0;
 }
+
+void delay_ms(int time_ms)
+{
+	int i;
+	for(i=0;i<time_ms;i++)
+	{
+		delay_us(1000);
+	}
+}

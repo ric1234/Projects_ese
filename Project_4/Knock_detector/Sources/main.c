@@ -55,7 +55,24 @@ int main(void)
 	//Initialize Spi as a master
 	//spi_init();
 	//spi_master();
-	temp_calc();
+
+	//temp_calc();
+
+	/*
+	 * Accelerometer part
+	 */
+	//__disable_irq();
+	//uart0_init();
+		//uart0_tx();
+
+		MCU_Init();
+
+	  	Accelerometer_Init();
+
+	  	//Calibrate();
+	  	//DataReady = 0;
+	  	//__enable_irq();
+
 	/**************************/
 	while(1)
 	{
@@ -73,6 +90,8 @@ int main(void)
 			nrf_fifo_status();
 
 		}*/
+
+		test_accelerometer();
 	}
     return 0;
 }

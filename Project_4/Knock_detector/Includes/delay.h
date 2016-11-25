@@ -10,5 +10,6 @@
 
 #include "MKL25Z4.h"
 void delay_us(int time);
+void delay_ms(int time_ms);
 
 #endif /* INCLUDES_DELAY_H_ */

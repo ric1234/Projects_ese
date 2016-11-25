@@ -4,11 +4,13 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Sources/accelerometer.c \
 ../Sources/adc.c \
 ../Sources/color.c \
 ../Sources/delay.c \
 ../Sources/dma.c \
 ../Sources/ftoa.c \
+../Sources/i2c.c \
 ../Sources/io.c \
 ../Sources/main.c \
 ../Sources/message.c \
@@ -18,11 +20,13 @@ C_SRCS += \
 ../Sources/uart.c 
 
 OBJS += \
+./Sources/accelerometer.o \
 ./Sources/adc.o \
 ./Sources/color.o \
 ./Sources/delay.o \
 ./Sources/dma.o \
 ./Sources/ftoa.o \
+./Sources/i2c.o \
 ./Sources/io.o \
 ./Sources/main.o \
 ./Sources/message.o \
@@ -32,11 +36,13 @@ OBJS += \
 ./Sources/uart.o 
 
 C_DEPS += \
+./Sources/accelerometer.d \
 ./Sources/adc.d \
 ./Sources/color.d \
 ./Sources/delay.d \
 ./Sources/dma.d \
 ./Sources/ftoa.d \
+./Sources/i2c.d \
 ./Sources/io.d \
 ./Sources/main.d \
 ./Sources/message.d \

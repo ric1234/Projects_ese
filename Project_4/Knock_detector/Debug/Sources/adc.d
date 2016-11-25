@@ -4,7 +4,8 @@ Sources/adc.o: ../Sources/adc.c ../Includes/main.h ../Includes/MKL25Z4.h \
  ../Includes/uart.h ../Includes/io.h ../Includes/profile.h \
  ../Includes/message.h ../Includes/colors.h ../Includes/rgb_pwm_init.h \
  ../Includes/ftoa.h ../Includes/dma.h ../Includes/adc.h ../Includes/spi.h \
- ../Includes/delay.h
+ ../Includes/delay.h ../Includes/accelerometer.h ../Includes/main.h \
+ ../Includes/i2c.h
 
 ../Includes/main.h:
 
@@ -39,3 +40,9 @@ Sources/adc.o: ../Sources/adc.c ../Includes/main.h ../Includes/MKL25Z4.h \
 ../Includes/spi.h:
 
 ../Includes/delay.h:
+
+../Includes/accelerometer.h:
+
+../Includes/main.h:
+
+../Includes/i2c.h:
