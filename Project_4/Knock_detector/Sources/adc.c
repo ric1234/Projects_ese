@@ -46,8 +46,8 @@ ADC0_SC3 = 0; // Reset SC3
 ADC0_SC1A = 0x1A;  // Select tempreture sensor as input in single ended mode
 while(ADC0_SC2 & ADC_SC2_ADACT_MASK){}	 // Conversion in progress
 	while(!(ADC0_SC1A & ADC_SC1_COCO_MASK)){}// Run until the conversion is complete
-	send= ADC0_RA;
-	return send ; 						//returning the ADC hex result
+    dma_setup16(&ADC0_RA,&send,2);    		//using DMA
+	return send ; 							//returning the ADC hex result
  }
 
 
@@ -65,13 +65,13 @@ void temp_calc()
 	{
 		Temp1 = (Vtemp-0.7012)/0.001646;
 		Temp = 25 - Temp1 ;      //Cold Slope
-		Tempf = (Temp - 32)/1.8;  //F to C conversion
+		Tempf = ((Temp - 32)/1.8) +10;  //F to C conversion
 	}
 	else
 	{
 		Temp2 = (Vtemp-0.7012)/0.001646;
 		Temp = 25 - Temp2 ;   //Hot Slope)
-		Tempf = (Temp - 32)/1.8;  //F to C conversion
+		Tempf = ((Temp - 32)/1.8) + 10;  //F to C conversion
 	}
 	print("\n\rTempreture:");
 	ftoa(Tempf, transfer, 2);
@@ -81,6 +81,7 @@ void temp_calc()
 			  b++;
 		  }
 		print_string(transfer, len);
+		print("C");
 	}
 }
 

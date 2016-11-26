@@ -7,9 +7,9 @@
 
 #include "main.h"
 #define FOURBYTE
-#define MEMZERO 1
+#define MEMMOVE 1
 /*memmove for 1byte mode*/
-void dma_setup8(uint8_t*arr1,uint8_t*arr2,uint32_t length)
+void dma_setup16(uint16_t*arr1,uint16_t*arr2,uint32_t length)
 {
 	SIM->SCGC6|=0x2u; //Enabling clock to DMAMUX
 	SIM->SCGC7|=0x100u;//Enable clock for DMA
@@ -21,13 +21,11 @@ void dma_setup8(uint8_t*arr1,uint8_t*arr2,uint32_t length)
     #if MEMZERO
 	DMA_DCR0 = 0x801A0000u; //Selecting 8 bit transfer mode and destination as incrementing after each transfer for memzero
     #else
-	DMA_DCR0 = 0x805A0000u; //Selecting 8 bit transfer mode and source/destination as incrementing after each transfer
+	DMA_DCR0 = 0x806C0000u; //Selecting 16 bit transfer mode and source/destination as incrementing after each transfer
     #endif
-	DMA_DCR0 = 0x805A0000u; //Selecting 8 bit transfer mode and source/destination as incrementing after each transfer
 	DMA_DAR0 = arr2; //Setting Destination address
 	DMAMUX0_CHCFG0 |= 0x39u; //Using 60th option of always enabled DMA channel for channel 0
 	DMAMUX0_CHCFG0 |= 0x80u; //enable the channel
-	timer_on();
 	DMA_DCR0 |= 0x00010000u; //setting the start bit
 
 }
@@ -117,13 +115,8 @@ void dma_memzero(void)
 void DMA0_IRQHandler(void)
 {
 	DMA_DSR_BCR0 |= 0x1000000u; //setting interrupt off
-	timer_off();
-	print("Time taken to memzero 10 bytes in 32-bit transfer mode is:");
-	timer_print();
-	if(DMA_DSR_BCR0 & 0x70000000)  //monitoring any error due to overlap of address
-		print("....FAIL\n\r");
-	else
-		print("....SUCCESS\n\r");
+		if(DMA_DSR_BCR0 & 0x70000000)  //monitoring any error due to overlap of address
+			print("DMA TRANSFER FAILURE\n\r"); //logging error message
 	}
 
 

@@ -42,13 +42,13 @@ int main(void)
 {
 
 	/*you can select the architecture to compile for in the main.h*/
-	//__disable_irq();  //function for disabling the interrupts
+	__disable_irq();  //function for disabling the interrupts
 	uart0_init();             //function for initializing the rgb leds
 	uart0_tx();               //function for initializing the transmit data*/
 	//uart0_rx();             //function for initializing the receive data
     //profile_timer_init();   //function for initializing the time profiling*/
 	//rgb_pwm_init();           //initialize rgb pwm
-	//__enable_irq();         //function for enabling the interrupts
+	__enable_irq();         //function for enabling the interrupts
 	//dma_memmove();          //test memmove based on dma
 	/*dma_memzero();          //test memmove based on dma*/
 	//Response msg= message_functions(); //calling messaging interface for pwm
@@ -56,7 +56,7 @@ int main(void)
 	//spi_init();
 	//spi_master();
 
-	//temp_calc();
+	temp_calc();
 
 	/*
 	 * Accelerometer part
@@ -65,9 +65,9 @@ int main(void)
 	//uart0_init();
 		//uart0_tx();
 
-		MCU_Init();
+		//MCU_Init();
 
-	  	Accelerometer_Init();
+	  	//Accelerometer_Init();
 
 	  	//Calibrate();
 	  	//DataReady = 0;
@@ -91,7 +91,7 @@ int main(void)
 
 		}*/
 
-		test_accelerometer();
+		//test_accelerometer();
 	}
     return 0;
 }

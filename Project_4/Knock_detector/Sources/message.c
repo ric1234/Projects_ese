@@ -143,6 +143,9 @@ for(i=0;i<2;i++){
 									  break;
 						 }
 	 }
+
+	 else if((cmd_ptr->command)==ACCELEROMETER)
+	 {}
 	 return SUCCESS;
 
 

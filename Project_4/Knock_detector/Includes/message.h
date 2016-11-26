@@ -12,7 +12,8 @@
 typedef enum Cmds_t {
 RED_LED = 'r',
 GREEN_LED = 'g',
-BLUE_LED = 'b'
+BLUE_LED = 'b',
+ACCELEROMETER = 'a'
 } Cmds;
 
 typedef struct CI_Msg_t{
