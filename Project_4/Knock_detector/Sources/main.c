@@ -45,37 +45,30 @@ int main(void)
 	__disable_irq();  //function for disabling the interrupts
 	uart0_init();             //function for initializing the rgb leds
 	uart0_tx();               //function for initializing the transmit data*/
-	//uart0_rx();             //function for initializing the receive data
+	uart0_rx();             //function for initializing the receive data
     //profile_timer_init();   //function for initializing the time profiling*/
 	//rgb_pwm_init();           //initialize rgb pwm
+	MCU_Init();
+    Accelerometer_Init();
 	__enable_irq();         //function for enabling the interrupts
 	//dma_memmove();          //test memmove based on dma
 	/*dma_memzero();          //test memmove based on dma*/
-	//Response msg= message_functions(); //calling messaging interface for pwm
+	Response msg= message_functions(); //calling messaging interface
 	//Initialize Spi as a master
 	//spi_init();
 	//spi_master();
 
-	temp_calc();
+	//temp_calc();
 
 	/*
 	 * Accelerometer part
 	 */
-	//__disable_irq();
-	//uart0_init();
-		//uart0_tx();
 
-		//MCU_Init();
-
-	  	//Accelerometer_Init();
-
-	  	//Calibrate();
-	  	//DataReady = 0;
-	  	//__enable_irq();
 
 	/**************************/
 	while(1)
 	{
+		//test_accelerometer();
 		//nrf_config_tx();
 		//delay_us(500);
 
@@ -91,7 +84,7 @@ int main(void)
 
 		}*/
 
-		//test_accelerometer();
+
 	}
     return 0;
 }

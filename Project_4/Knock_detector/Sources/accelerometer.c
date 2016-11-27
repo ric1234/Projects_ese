@@ -31,7 +31,8 @@ void MCU_Init(void)
 	//NVIC_ICPR |= 1 << ((PORTA_IRQn - 16)%32);
 	//NVIC->ISER[0] |= 1 << ((PORTA_IRQn - 16)%32);
 	//NVIC->ISER[0] |= 0x40000000;
-	NVIC_EnableIRQ(PORTA_IRQn);
+
+	//NVIC_EnableIRQ(PORTA_IRQn);
 
 
 }
@@ -97,15 +98,15 @@ void Calibrate (void)
 void test_accelerometer(void)
 {
 	//if (DataReady)		// Is a new set of data ready?
-	{
+
 					DataReady = 0;		//declared in main modified in the interrupt
 
 					I2C_ReadMultiRegisters(MMA845x_I2C_ADDRESS, OUT_X_MSB_REG, 6, AccData);		// Read data output registers 0x01-0x06
 
-					Xout_14_bit = ((float) (AccData[0]<<8 | AccData[1])) ;		// Compute 14-bit X-axis output value >> 2
-					ftoa(Xout_14_bit,&Xout_14_bit_in_ascii,1);
+					Xout_14_bit = ((uint16_t) (AccData[0]<<8 | AccData[1])) ;		// Compute 14-bit X-axis output value >> 2
+					/*ftoa(Xout_14_bit,&Xout_14_bit_in_ascii,1);
 					print_string(&Xout_14_bit_in_ascii,4);
-					print("\t");
+					print("\t");*/
 
 
 					/*while(Xout_14_bit_in_ascii!='\0')
@@ -116,10 +117,10 @@ void test_accelerometer(void)
 					print_string(transfer, len);
 					print("\t");*/
 
-					Yout_14_bit = ((float) (AccData[2]<<8 | AccData[3])) ;		// Compute 14-bit Y-axis output value
-					ftoa(Yout_14_bit,&Yout_14_bit_in_ascii,1);
+					Yout_14_bit = ((uint16_t) (AccData[2]<<8 | AccData[3])) ;		// Compute 14-bit Y-axis output value
+					/*ftoa(Yout_14_bit,&Yout_14_bit_in_ascii,1);
 									print_string(&Yout_14_bit_in_ascii,4);
-									print("\t");
+									print("\t");*/
 					/*while(Xout_14_bit_in_ascii!='\0')
 											  {
 												  len++;
@@ -128,10 +129,10 @@ void test_accelerometer(void)
 									print_string(transfer, len);
 									print("\t");*/
 
-					Zout_14_bit = ((float) (AccData[4]<<8 | AccData[5]));		// Compute 14-bit Z-axis output value
-					ftoa(Zout_14_bit,&Zout_14_bit_in_ascii,1);
+					Zout_14_bit = ((uint16_t) (AccData[4]<<8 | AccData[5]));		// Compute 14-bit Z-axis output value
+					/*ftoa(Zout_14_bit,&Zout_14_bit_in_ascii,1);
 									print_string(&Zout_14_bit_in_ascii,4);
-									print("\t \n \r");
+									print("\t \n \r");*/
 									/*while(Xout_14_bit_in_ascii!='\0')
 															  {
 																  len++;
@@ -141,13 +142,28 @@ void test_accelerometer(void)
 													print("\t");*/
 
 					Xout_g = ((float) Xout_14_bit) / SENSITIVITY_2G;		// Compute X-axis output value in g's
+					/*ftoa(Xout_g,&Xout_14_bit_in_ascii,1);
+										print_string(&Xout_14_bit_in_ascii,4);
+										print("\t");*/
 					Yout_g = ((float) Yout_14_bit) / SENSITIVITY_2G;		// Compute Y-axis output value in g's
+					/*ftoa(Yout_g,&Yout_14_bit_in_ascii,1);
+														print_string(&Yout_14_bit_in_ascii,4);
+														print("\t");*/
 					Zout_g = ((float) Zout_14_bit) / SENSITIVITY_2G;		// Compute Z-axis output value in g's
-				}
+					if(Zout_g < 3.5)                                          // Checking for any kind of knocking
+					{
+					print("\n \r \t \t  !!!! ALERT !!!!");                  //Alert messages
+					print("\n \r Excess knocking in the engine");
+                    print("\n\r The knocking value is : ");
+					ftoa(Zout_g,&Zout_14_bit_in_ascii,1);                    //Printing the knock value
+                    print("\n \r");
+					print_string(&Zout_14_bit_in_ascii,4);
+					print("\n\r The engine temperature is : ");
+					temp_calc();                              // Calling the function to give the current engine knock value
+				    }
 				//else
-					{//print_string(&Xout_14_bit,2);
-					print("Nothing\n\r");
-					delay_ms(1000);}
+					//print_string(&Xout_14_bit,2);
+					delay_ms(1);
 }
 
 

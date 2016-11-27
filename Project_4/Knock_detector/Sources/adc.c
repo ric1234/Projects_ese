@@ -53,8 +53,6 @@ while(ADC0_SC2 & ADC_SC2_ADACT_MASK){}	 // Conversion in progress
 
 void temp_calc()
 {
-	while(1)
-	{
 		uint16_t raw=0, len=0;
 		float Vtemp=0,Temp=0,Temp1=0,Temp2=0,Tempf=0;
 		char transfer[20];
@@ -73,7 +71,7 @@ void temp_calc()
 		Temp = 25 - Temp2 ;   //Hot Slope)
 		Tempf = ((Temp - 32)/1.8) + 10;  //F to C conversion
 	}
-	print("\n\rTempreture:");
+	print("\n\r");
 	ftoa(Tempf, transfer, 2);
 		while(*b!='\0')
 		  {
@@ -82,7 +80,8 @@ void temp_calc()
 		  }
 		print_string(transfer, len);
 		print("C");
-	}
+		delay_ms(500);
 }
+
 
 

@@ -145,7 +145,13 @@ for(i=0;i<2;i++){
 	 }
 
 	 else if((cmd_ptr->command)==ACCELEROMETER)
-	 {}
+	 {
+		 print("\r\n Your knock detector is ON");
+		 while(1)
+		 {
+		 test_accelerometer();
+		 }
+	 }
 	 return SUCCESS;
 
 
