@@ -5,17 +5,32 @@
  *      Author: omkar
  */
 #include "main.h"
+
 /*Function to initialize the UART0*/
 void uart0_init(void)
 {
+#ifdef bluetooth
+	SIM->SCGC4 |= 0x0800;		//Enable clock for UART1
+	UART0->C2=0;				//UART0 off to change configurations
+#else
 	SIM->SCGC4 |= 0x0400;		//Enable clock for UART0
 	SIM->SOPT2 |= 0x04000000;	//Use FLL output for UART0
 	UART0->C2=0;				//UART0 off to change configurations
+#endif
 
 }
 /*Function to transmit data on the uart*/
 void uart0_tx(void)
 {
+#ifdef bluetooth
+	UART1->BDH = 0x00;			//Higher bit of Baud
+	UART1->BDL = 0x3E;			//Lower bit of baud //Set baudrate as 24000bps //clock is 24MHz
+	UART1->C4 = 0x0F;			//OSR = 16
+	UART1->C1 = 0x00;			//8 bit data
+	UART1->C2 |= 0x08;			//Start the uart enable transmit
+	SIM->SCGC5 |=0X0F00;		//Clock for port C
+	PORTC->PCR[4] |= 0x0300;	//make PTC4 UART1 transmitter pin
+#else
 	UART0->BDH = 0x00;			//Higher bit of Baud
 	UART0->BDL = 0x17;			//Lower bit of baud
 	UART0->C4 = 0x0F;			//OSR = 16;
@@ -23,6 +38,7 @@ void uart0_tx(void)
 	UART0->C2 |= 0x08;			//Start the uart enable transmit
 	SIM->SCGC5 |=0X0200;		//Clock for port A
 	PORTA->PCR[2] |= 0x0200;	//make PTA2 UART0 transmitter pin
+#endif
 }
 /*Function to receive data on the UART*/
 void uart0_rx(void)

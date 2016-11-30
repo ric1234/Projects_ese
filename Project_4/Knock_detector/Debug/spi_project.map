@@ -1795,7 +1795,7 @@ OUTPUT(spi_project.elf elf32-littlearm)
  .debug_macro   0x0000b1b1       0x7e ./Project_Settings/Startup_Code/system_MKL25Z4.o
  .debug_macro   0x0000b22f       0x4c ./Project_Settings/Startup_Code/system_MKL25Z4.o
 
-.debug_line     0x00000000     0x293f
+.debug_line     0x00000000     0x2942
  .debug_line    0x00000000      0x399 ./Sources/accelerometer.o
  .debug_line    0x00000399      0x36e ./Sources/adc.o
  .debug_line    0x00000707      0x372 ./Sources/color.o
@@ -1806,9 +1806,9 @@ OUTPUT(spi_project.elf elf32-littlearm)
  .debug_line    0x000018ce      0x355 ./Sources/io.o
  .debug_line    0x00001c23      0x32a ./Sources/main.o
  .debug_line    0x00001f4d      0x3c0 ./Sources/message.o
- .debug_line    0x0000230d      0x377 ./Sources/uart.o
- .debug_line    0x00002684       0x7b ./Project_Settings/Startup_Code/startup_MKL25Z4.o
- .debug_line    0x000026ff      0x240 ./Project_Settings/Startup_Code/system_MKL25Z4.o
+ .debug_line    0x0000230d      0x37a ./Sources/uart.o
+ .debug_line    0x00002687       0x7b ./Project_Settings/Startup_Code/startup_MKL25Z4.o
+ .debug_line    0x00002702      0x240 ./Project_Settings/Startup_Code/system_MKL25Z4.o
 
 .debug_str      0x00000000    0x34878
  .debug_str     0x00000000    0x34319 ./Sources/accelerometer.o
