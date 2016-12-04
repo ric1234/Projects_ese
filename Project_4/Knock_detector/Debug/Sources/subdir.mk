@@ -16,7 +16,6 @@ C_SRCS += \
 ../Sources/message.c \
 ../Sources/profile.c \
 ../Sources/pwm_inti.c \
-../Sources/spi.c \
 ../Sources/uart.c 
 
 OBJS += \
@@ -32,7 +31,6 @@ OBJS += \
 ./Sources/message.o \
 ./Sources/profile.o \
 ./Sources/pwm_inti.o \
-./Sources/spi.o \
 ./Sources/uart.o 
 
 C_DEPS += \
@@ -48,7 +46,6 @@ C_DEPS += \
 ./Sources/message.d \
 ./Sources/profile.d \
 ./Sources/pwm_inti.d \
-./Sources/spi.d \
 ./Sources/uart.d 
 
 

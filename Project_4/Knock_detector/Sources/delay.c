@@ -4,7 +4,7 @@
  *  Created on: Oct 31, 2016
  *      Author: richa
  */
-#include "delay.h"
+#include "main.h"
 
 void delay_us(int time)
 {

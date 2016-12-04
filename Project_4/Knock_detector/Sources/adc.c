@@ -6,7 +6,7 @@
  */
 #include "main.h"
 
-uint16_t adc_temperature(void)
+ uint16_t inline adc_temperature(void)
  {
 	 uint16_t send=0,calib=0;
 SIM_SCGC6 |= SIM_SCGC6_ADC0_MASK;		//Enabling clock to ADC0
@@ -58,16 +58,16 @@ void temp_calc()
 		char transfer[20];
 		char *b=transfer;
 	raw = adc_temperature(); //storing 10-bit temperature value
-	Vtemp = raw * 0.0029296875 ; //Convert the ADC reading into voltage
+	Vtemp = raw * 0.0029296875;  //Convert the ADC reading into voltage
 	if (Vtemp >= 0.7012)    //Check for Hot or Cold Slope
 	{
-		Temp1 = (Vtemp-0.7012)/0.001646;
+		Temp1 =Temp_conv (Vtemp) ;
 		Temp = 25 - Temp1 ;      //Cold Slope
 		Tempf = ((Temp - 32)/1.8) +10;  //F to C conversion
 	}
 	else
 	{
-		Temp2 = (Vtemp-0.7012)/0.001646;
+		Temp2 = Temp_conv (Vtemp);
 		Temp = 25 - Temp2 ;   //Hot Slope)
 		Tempf = ((Temp - 32)/1.8) + 10;  //F to C conversion
 	}
@@ -83,5 +83,9 @@ void temp_calc()
 		delay_ms(500);
 }
 
-
+float inline Temp_conv (float a)
+{
+	float b = (a-0.7012)/0.001646;
+	return b;
+	}
 

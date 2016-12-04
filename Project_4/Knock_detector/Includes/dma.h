@@ -10,8 +10,7 @@
 
 void dma_setup16(uint16_t*arr1,uint16_t*arr2,uint32_t length);
 void dma_setup32(uint32_t*arr1,uint32_t*arr2,uint32_t length);
-void dma_memmove(void);
-void dma_memzero(void);
+
 
 
 #endif /* INCLUDES_DMA_H_ */

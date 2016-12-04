@@ -7,7 +7,7 @@
 #include "main.h"
 
 /*Function to receive the message from the terminal*/
- void message_input(CI_Msg *c)
+  void inline message_input(CI_Msg *c)
 {
 uint8_t *a=(uint8_t*)c; //type casting the message structure to a byte pointer
 uint8_t i;
@@ -35,7 +35,7 @@ for(i=0;i<2;i++){
  Response message_functions()
  {
 	 CI_Msg Message;       //A variable for message structure
-	 message_input(&Message);  //Passing variable to get the latest data
+	  message_input(&Message);  //Passing variable to get the latest data
 	 CI_Msg *cmd_ptr= &Message;
 	 uint8_t i;
 	 uint16_t calc_checksum= 0;
@@ -149,7 +149,8 @@ for(i=0;i<2;i++){
 		 print("\r\n Your knock detector is ON");
 		 while(1)
 		 {
-		 test_accelerometer();
+			 ptr_test_accelerometer= &test_accelerometer;
+		  (*ptr_test_accelerometer)();
 		 }
 	 }
 	 return SUCCESS;

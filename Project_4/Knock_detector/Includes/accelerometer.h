@@ -8,10 +8,6 @@
 #ifndef INCLUDES_ACCELEROMETER_H_
 #define INCLUDES_ACCELEROMETER_H_
 
-#include "main.h"
-#include "delay.h"
-#include "ftoa.h"
-#include "i2c.h"
 
 /******************************************************************************
 * Constants and macros
@@ -102,6 +98,6 @@ void Accelerometer_Init (void);
 void Calibrate(void);
 
 void test_accelerometer(void);
-
+void (*ptr_test_accelerometer)(void);
 
 #endif /* INCLUDES_ACCELEROMETER_H_ */

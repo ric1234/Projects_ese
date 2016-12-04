@@ -40,50 +40,20 @@
 
 int main(void)
 {
-
 	/*you can select the architecture to compile for in the main.h*/
 	__disable_irq();  //function for disabling the interrupts
 	uart0_init();             //function for initializing the rgb leds
 	uart0_tx();               //function for initializing the transmit data*/
 	uart0_rx();             //function for initializing the receive data
-    //profile_timer_init();   //function for initializing the time profiling*/
 	//rgb_pwm_init();           //initialize rgb pwm
 	MCU_Init();
     Accelerometer_Init();
 	__enable_irq();         //function for enabling the interrupts
-	//dma_memmove();          //test memmove based on dma
-	/*dma_memzero();          //test memmove based on dma*/
-	Response msg= message_functions(); //calling messaging interface
-	//Initialize Spi as a master
-	//spi_init();
-	//spi_master();
+	message_functions_ptr=&message_functions; //using function pointer for messaging
+	Response msg= (*message_functions_ptr)(); //calling messaging interface
 
-	//temp_calc();
-
-	/*
-	 * Accelerometer part
-	 */
-
-
-	/**************************/
 	while(1)
 	{
-		//test_accelerometer();
-		//nrf_config_tx();
-		//delay_us(500);
-
-		/*//For required elements:
-		 nrf_test();
-		 */
-
-		/*Extra Credit: Set as receiver nrf module*/
-		/*nrf_air_rx();
-		while(1)
-		{
-			nrf_fifo_status();
-
-		}*/
-
 
 	}
     return 0;

@@ -4,7 +4,7 @@
  *  Created on: Nov 25, 2016
  *      Author: richa
  */
-#include "accelerometer.h"
+#include "main.h"
 /******************************************************************************
 * MCU initialization function
 ******************************************************************************/
@@ -159,7 +159,8 @@ void test_accelerometer(void)
                     print("\n \r");
 					print_string(&Zout_14_bit_in_ascii,4);
 					print("\n\r The engine temperature is : ");
-					temp_calc();                              // Calling the function to give the current engine knock value
+					 ptr_temp_calc= &temp_calc;
+					(*ptr_temp_calc)();                            // Calling the function to give the current engine knock value
 				    }
 				//else
 					//print_string(&Xout_14_bit,2);

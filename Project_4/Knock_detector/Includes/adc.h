@@ -10,7 +10,7 @@
 
  uint16_t adc_temperature(void);
  void temp_calc();
-
-
+ void (*ptr_temp_calc)();
+ float Temp_conv (float a);
 
 #endif /* INCLUDES_ADC_H_ */

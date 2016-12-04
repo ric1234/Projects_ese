@@ -6,7 +6,6 @@
  */
 
 #include "main.h"
-#define FOURBYTE
 #define MEMMOVE 1
 /*memmove for 1byte mode*/
 void dma_setup16(uint16_t*arr1,uint16_t*arr2,uint32_t length)
@@ -82,35 +81,6 @@ void dma_setup32(uint32_t*arr1,uint32_t*arr2,uint32_t length)
 	}
 }
 
-void dma_memmove(void)
-  {
-#ifdef ONEBYTE //arrays for 1 byte transfer mode
-	uint8_t array1[5000],array2[5000];
-	uint32_t length=5000;
-	dma_setup8(array1,array2,length);
-#endif
-#ifdef FOURBYTE //arrays for 4 byte transfer mode
-	uint32_t array1[3],array2[3];
-	uint32_t length=10;
-	dma_setup32(array1,array2,length);
-#endif
-  }
-
-void dma_memzero(void)
-  {
-#ifdef ONEBYTE //arrays for 1 byte transfer mode
-	uint8_t array[5000],zero=0;
-	uint8_t* a=&zero;
-	uint32_t length=5000;
-	dma_setup8(a,array,length);
-#endif
-#ifdef FOURBYTE //arrays for 4 byte transfer mode
-	uint32_t array[3],zero=0;
-	uint32_t length=10;
-	uint32_t* a=&zero;
-	dma_setup32(a,array,length);
-#endif
-  }
 
 void DMA0_IRQHandler(void)
 {

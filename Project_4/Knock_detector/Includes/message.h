@@ -30,7 +30,8 @@ ERROR = 0x01, // Provides a temperature Reading
 SUCCESS = 0x02, // Sets speed for a motor Controller
 } Response;
 
-void message_input(CI_Msg *c);
+ void message_input(CI_Msg *c);
 Response message_functions();
+Response (*message_functions_ptr)();
 
 #endif /* SOURCES_MESSAGE_H_ */
