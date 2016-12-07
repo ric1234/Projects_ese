@@ -74,5 +74,40 @@ void print_string(char *ptr_str, uint32_t len)
 		}
 }
 
+/*Function to initialize the UART0*/
+void uart1_init(void)
+{
+	SIM->SCGC4 |= 0x0800;		//Enable clock for UART1
+	UART1->C2=0;				//UART0 off to change configurations
+}
+
+/*Function to transmit data on the uart*/
+void uart1_tx(void)
+{
+
+	UART1->BDH = 0x00;			//Higher bit of Baud
+	UART1->BDL = 0x05;			//Lower bit of baud //Set baudrate as 24000bps //clock is 24MHz  3E??
+	UART1->C4 = 0x0F;			//OSR = 16
+	UART1->C1 = 0x00;			//8 bit data
+	UART1->C2 |= 0x08;			//Start the uart enable transmit
+	SIM->SCGC5 |=0X0800;		//Clock for port C
+	PORTC->PCR[4] |= 0x0300;	//make PTC4 UART1 transmitter pin
+
+}
+/*Function to receive data on the UART*/
+void uart1_rx(void)
+{
+	UART1->BDH = 0x00;			//Higher bit of Baud
+	UART1->BDL = 0x05;			//Lower bit of baud
+	UART1->C4 = 0x0F;			//OSR = 16;
+	UART1->C1 = 0x00;			//8 bit data
+	UART1->C2 |= 0x04;			//Start the uart enable receive
+	//UART1->C2 |= 0x20;			//Enable the receive interrupt
+	//NVIC->ISER[0]=0x00001000;	//enable INT12 ie uart0 interrupt
+	SIM->SCGC5 |=0X0800;		//Clock for port C
+	PORTC->PCR[3] |= 0x0300;	//make PTA1 UART0 receiver pin
+}
+
+
 
 

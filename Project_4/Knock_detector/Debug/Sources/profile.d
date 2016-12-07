@@ -5,7 +5,7 @@ Sources/profile.o: ../Sources/profile.c ../Includes/main.h \
  ../Includes/profile.h ../Includes/message.h ../Includes/colors.h \
  ../Includes/rgb_pwm_init.h ../Includes/ftoa.h ../Includes/dma.h \
  ../Includes/adc.h ../Includes/delay.h ../Includes/accelerometer.h \
- ../Includes/i2c.h ../Includes/main.h
+ ../Includes/i2c.h ../Includes/main.h ../Includes/rtc.h
 
 ../Includes/main.h:
 
@@ -44,3 +44,5 @@ Sources/profile.o: ../Sources/profile.c ../Includes/main.h \
 ../Includes/i2c.h:
 
 ../Includes/main.h:
+
+../Includes/rtc.h:

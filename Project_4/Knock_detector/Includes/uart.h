@@ -14,6 +14,10 @@ void uart0_rx(void);
 void print_string(char *ptr_str, uint32_t len);
 void print_stringl(char *ptr);
 
+void uart1_rx(void);
+void uart1_tx(void);
+void uart1_init(void);
+
 
 
 

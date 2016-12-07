@@ -47,6 +47,61 @@ char receive_data_char(void)
 	return c;
 }
 
+/*Sends data as single character*/
+void send_data_uart1(char character)
+{
 
+	UART1->D = (uint8_t)character;						//Move the character to the Uart data buffer
+	while(!(UART1->S1 & 0x80))	{}						//Wait for the transmit to take place
 
+}
+
+/*Blocking function for UART*/
+char receive_data_char_uart1(void)
+{
+	char c,*m;
+	m=&c;
+	while(!(UART1->S1 & 0x20))	{}
+	c = UART1->D;
+	print(m);
+	return c;
+}
+
+void bluutooth_test()
+{
+	/********************************************/
+				/*uart1_init();
+				uart1_tx();
+				uart1_rx();*/
+
+				/***********************************************/
+				//Bluetooth part
+				/*send_data_uart1('$');
+				send_data_uart1('$');
+				send_data_uart1('$');
+
+				send_data('$');
+				send_data('$');
+				send_data('$');
+
+				delay_us(500);
+
+				send_data_uart1('D');
+
+				inner=receive_data_char_uart1();
+				outer=hex_to_ascii(inner,ptr);
+				print_string(ptr,1);
+				print_string(&outer,1);
+
+				inner=receive_data_char_uart1();
+				outer=hex_to_ascii(inner,ptr);
+				print_string(ptr,1);
+				print_string(&outer,1);
+
+				inner=receive_data_char_uart1();
+				outer=hex_to_ascii(inner,ptr);
+				print_string(ptr,1);
+				print_string(&outer,1);*/
+
+}
 

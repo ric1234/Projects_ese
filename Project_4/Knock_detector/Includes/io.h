@@ -13,5 +13,10 @@ int receive_data(char* c);
 void led_pwm(void);
 
 
+char receive_data_char_uart1(void);
+void send_data_uart1(char character);
+
+void bluutooth_test();
+
 
 #endif /* INCLUDES_IO_H_ */
