@@ -9,6 +9,7 @@ C_SRCS += \
 ../Sources/color.c \
 ../Sources/delay.c \
 ../Sources/dma.c \
+../Sources/eeprom.c \
 ../Sources/ftoa.c \
 ../Sources/i2c.c \
 ../Sources/io.c \
@@ -25,6 +26,7 @@ OBJS += \
 ./Sources/color.o \
 ./Sources/delay.o \
 ./Sources/dma.o \
+./Sources/eeprom.o \
 ./Sources/ftoa.o \
 ./Sources/i2c.o \
 ./Sources/io.o \
@@ -41,6 +43,7 @@ C_DEPS += \
 ./Sources/color.d \
 ./Sources/delay.d \
 ./Sources/dma.d \
+./Sources/eeprom.d \
 ./Sources/ftoa.d \
 ./Sources/i2c.d \
 ./Sources/io.d \

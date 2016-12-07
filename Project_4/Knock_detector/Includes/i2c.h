@@ -47,7 +47,7 @@ void I2C_WriteRegister(unsigned char u8SlaveAddress, unsigned char u8RegisterAdd
 unsigned char I2C_ReadRegister(unsigned char u8SlaveAddress, unsigned char u8RegisterAddress);
 void I2C_ReadMultiRegisters(unsigned char u8SlaveAddress, unsigned char u8RegisterAddress, unsigned char n, unsigned char *r);
 void Pause(int number);
-
+unsigned char I2C_ReadRegister_single(unsigned char u8SlaveAddress, unsigned char u8RegisterAddress);
 
 
 

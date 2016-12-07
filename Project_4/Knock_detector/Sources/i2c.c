@@ -10,10 +10,14 @@
 void i2c0_init(void)
 {
 	SIM->SCGC4 |= SIM_SCGC4_I2C0_MASK;				//turn on the clok to i2c0
-	SIM->SCGC5 |= SIM_SCGC5_PORTE_MASK;				//CLock port E
+	/*SIM->SCGC5 |= SIM_SCGC5_PORTE_MASK;				//CLock port E
 	PORTE->PCR[24]= 0x0500;
 	//PORTE->PCR[24]=PORT_PCR_MUX[6];				//In mask form
-	PORTE->PCR[25]= 0x0500;
+	PORTE->PCR[25]= 0x0500;*/
+
+	SIM_SCGC5 |= SIM_SCGC5_PORTC_MASK;
+	PORTC_PCR14 |= PORT_PCR_MUX(2);       //PTC1 as RTC_CLKIN
+	PORTC_PCR16 |= PORT_PCR_MUX(2);       //PTC1 as RTC_CLKIN
 
 
 	I2C0->C1=0;							//Disable I2C
@@ -199,6 +203,37 @@ void I2C_WriteRegister(unsigned char u8SlaveAddress, unsigned char u8RegisterAdd
     Pause(50);
 }
 
+unsigned char I2C_ReadRegister_single(unsigned char u8SlaveAddress, unsigned char u8RegisterAddress)
+{
+	unsigned char result;
+
+	I2C_Start();
+	I2C0_D = u8SlaveAddress << 1;									/* Send I2C device address with W/R bit = 0 */
+	I2C_EnableAck();
+	//I2C_Wait();
+
+	I2C0_D = u8RegisterAddress;										/* Send register address */
+	I2C_EnableAck();
+	//I2C_Wait();
+
+	I2C_RepeatedStart();
+
+	I2C0_D = (u8SlaveAddress << 1) | 0x01;							/* Send I2C device address this time with W/R bit = 1 */
+	I2C_EnableAck();
+	//I2C_Wait();
+	//I2C_EnableAck();
+
+	I2C_EnterRxMode();
+	I2C_DisableAck();
+
+	result = I2C0_D;
+	I2C_Wait();
+	I2C_Stop();
+	result = I2C0_D;
+	Pause(50);
+	return result;
+}
+
 unsigned char I2C_ReadRegister(unsigned char u8SlaveAddress, unsigned char u8RegisterAddress)
 {
 	unsigned char result;
@@ -225,6 +260,7 @@ unsigned char I2C_ReadRegister(unsigned char u8SlaveAddress, unsigned char u8Reg
 	Pause(50);
 	return result;
 }
+
 
 void I2C_ReadMultiRegisters(unsigned char u8SlaveAddress, unsigned char u8RegisterAddress, unsigned char n, unsigned char *r)
 {

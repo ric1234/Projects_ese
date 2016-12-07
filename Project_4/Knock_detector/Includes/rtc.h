@@ -15,6 +15,7 @@ void Clock_Configuration (void);
 void rtc_init();
 unsigned char hex_to_ascii(unsigned char hex_value, unsigned char * out);
 void rtc_start();
+void print_rtc();
 
 
 #endif /* INCLUDES_RTC_H_ */

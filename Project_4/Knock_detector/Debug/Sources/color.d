@@ -5,7 +5,8 @@ Sources/color.o: ../Sources/color.c ../Includes/main.h \
  ../Includes/profile.h ../Includes/message.h ../Includes/colors.h \
  ../Includes/rgb_pwm_init.h ../Includes/ftoa.h ../Includes/dma.h \
  ../Includes/adc.h ../Includes/delay.h ../Includes/accelerometer.h \
- ../Includes/i2c.h ../Includes/main.h ../Includes/rtc.h
+ ../Includes/i2c.h ../Includes/main.h ../Includes/rtc.h \
+ ../Includes/eeprom.h
 
 ../Includes/main.h:
 
@@ -46,3 +47,5 @@ Sources/color.o: ../Sources/color.c ../Includes/main.h \
 ../Includes/main.h:
 
 ../Includes/rtc.h:
+
+../Includes/eeprom.h:

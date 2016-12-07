@@ -30,6 +30,7 @@
 #include "accelerometer.h"
 #include "i2c.h"
 #include "rtc.h"
+#include "eeprom.h"
 
 volatile int seconds_rtc, minutes_rtc;
 volatile uint8_t interrupt_rtc;

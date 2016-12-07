@@ -19,6 +19,12 @@ void MCU_Init(void)
 	I2C0_F  = 0x14; 						// SDA hold time = 2.125us, SCL start hold time = 4.25us, SCL stop hold time = 5.125us *
 	I2C0_C1 = I2C_C1_IICEN_MASK;    		// Enable I2C0 module
 
+	SIM_SCGC5 |= SIM_SCGC5_PORTC_MASK;
+		PORTC_PCR8 |= PORT_PCR_MUX(2);       //PTC1 as RTC_CLKIN
+		PORTC_PCR9 |= PORT_PCR_MUX(2);       //PTC1 as RTC_CLKIN
+
+
+
 	//Configure the PTA14 pin (connected to the INT1 of the MMA8451Q) for falling edge interrupts
 
 	SIM_SCGC5 |= SIM_SCGC5_PORTA_MASK;		// Turn on clock to Port A module
