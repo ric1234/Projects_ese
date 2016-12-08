@@ -4,8 +4,9 @@ Sources/message.o: ../Sources/message.c ../Includes/main.h \
  ../Includes/system_MKL25Z4.h ../Includes/uart.h ../Includes/io.h \
  ../Includes/profile.h ../Includes/message.h ../Includes/ftoa.h \
  ../Includes/dma.h ../Includes/adc.h ../Includes/delay.h \
- ../Includes/accelerometer.h ../Includes/i2c.h ../Includes/main.h \
- ../Includes/rtc.h ../Includes/eeprom.h ../Includes/logging.h
+ ../Includes/accelerometer.h ../Includes/main.h ../Includes/i2c.h \
+ ../Includes/rtc.h ../Includes/eeprom.h ../Includes/logging.h \
+ ../Includes/io.h
 
 ../Includes/main.h:
 
@@ -37,12 +38,14 @@ Sources/message.o: ../Sources/message.c ../Includes/main.h \
 
 ../Includes/accelerometer.h:
 
-../Includes/i2c.h:
-
 ../Includes/main.h:
+
+../Includes/i2c.h:
 
 ../Includes/rtc.h:
 
 ../Includes/eeprom.h:
 
 ../Includes/logging.h:
+
+../Includes/io.h:

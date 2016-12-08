@@ -8,10 +8,7 @@
 #ifndef INCLUDES_ACCELEROMETER_H_
 #define INCLUDES_ACCELEROMETER_H_
 
-
-/******************************************************************************
-* Constants and macros
-******************************************************************************/
+#include "main.h"
 
 //MMA8451Q Registers
 

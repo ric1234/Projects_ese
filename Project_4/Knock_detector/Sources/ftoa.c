@@ -2,7 +2,7 @@
  * ftoa.c
  *
  *  Created on: 27-Oct-2016
- *      Author: omkar
+ *      Author: Richard Noronha and Omkar Purandare
  */
 #include"main.h"
 

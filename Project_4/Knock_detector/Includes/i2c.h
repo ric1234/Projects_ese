@@ -10,7 +10,7 @@
 
 #include "MKL25Z4.h"
 #include "main.h"
-//#include "gpio.h"
+#include "delay.h"
 
 #include "uart.h"
 #define FRDM
@@ -41,11 +41,12 @@
 #define I2C_Wait()             while((I2C0_S & I2C_S_IICIF_MASK)==0) {} \
                                I2C0_S |= I2C_S_IICIF_MASK;
 
+
 void i2c0_init(void);
 
 unsigned char I2C_ReadRegister(unsigned char u8SlaveAddress, unsigned char u8RegisterAddress);
 void I2C_ReadMultiRegisters(unsigned char u8SlaveAddress, unsigned char u8RegisterAddress, unsigned char n, unsigned char *r);
-void Pause(int number);
+//void Pause(int number);
 unsigned char I2C_ReadRegister_single(unsigned char u8SlaveAddress, unsigned char u8RegisterAddress);
 
 void I2C_WriteRegister(unsigned char u8SlaveAddress, unsigned char u8RegisterAddress, unsigned char u8Data);

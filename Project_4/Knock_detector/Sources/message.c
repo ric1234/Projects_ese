@@ -2,9 +2,10 @@
  * message.c
  *
  *  Created on: 02-Nov-2016
- *      Author: omkar
+ *      Author: Richard Noronha and Omkar Purandare
  */
 #include "main.h"
+#include "io.h"
 
 /*****Function to receive the message from the terminal*******/
   void inline message_input(CI_Msg *c)
@@ -33,8 +34,10 @@ a=a+MAX_DATA_SIZE-i;
 	 while(1)
 	 {
 			extern int old_time, new_time,structure_item;  // old and new times
-			old_time=0;
-			new_time=0;
+			extern volatile int seconds_rtc;
+	    	 old_time=0;
+	    	 new_time=0;
+
 	 print("\r\nEnter the command you want to run:\n");
 	 CI_Msg Message;       //A variable for message structure
 	  message_input(&Message);  //Passing variable to get the latest data
@@ -53,6 +56,8 @@ a=a+MAX_DATA_SIZE-i;
 
      if((cmd_ptr->command)==ACCELEROMETER)
 	 {
+
+    	 new_time=seconds_rtc;
 		 print("\r\n Your knock detector is ON");
 		  structure_item=0;
 		 uart0_rx_int_based();			          	//Uart receive is interrupt handled
@@ -105,6 +110,10 @@ a=a+MAX_DATA_SIZE-i;
     		print("seconds\n");
     	 }
 
+     }
+     else
+     {
+    	 print("\n\r Enter proper command 'a' or 'm'");
      }
 	 }
 	 return SUCCESS;

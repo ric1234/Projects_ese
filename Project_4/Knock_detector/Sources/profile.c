@@ -2,7 +2,7 @@
  * profile.c
  *
  *  Created on: 27-Oct-2016
- *      Author: omkar
+ *      Author: Richard Noronha and Omkar Purandare
  */
 /*Description: This file contains the file for the profiling for the FRDM board*/
 

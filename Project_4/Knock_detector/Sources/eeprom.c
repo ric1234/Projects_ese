@@ -8,7 +8,7 @@
  * eeprom.c
  *
  *  Created on: Dec 1, 2016
- *      Author: richa
+ *      Author: Richard Noronha and Omkar Purandare
  */
 
 #include"i2c.h"

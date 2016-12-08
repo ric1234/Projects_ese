@@ -2,7 +2,7 @@
  * adc.c
  *
  *  Created on: 20-Nov-2016
- *      Author: omkar
+ *      Author: Richard Noronha and Omkar Purandare
  */
 #include "main.h"
 

@@ -2,8 +2,8 @@
  * delay.c
  *
  *  Created on: Oct 31, 2016
- *      Author: richa
- */
+ *      Author: Richard Noronha and Omkar Purandare
+ *       */
 #include "main.h"
 
 /*******Using the timer*******/
