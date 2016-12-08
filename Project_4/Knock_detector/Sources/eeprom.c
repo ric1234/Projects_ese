@@ -57,7 +57,7 @@ unsigned char EEPROM_ReadByte(unsigned char eeprom_Address,unsigned char Page_Nu
 
 
 /*---------------------------------------------------------------------------------------
-void EEPROM_WriteNBytes(unsigned char EepromAddr, unsigned char *RamAddr, char NoOfBytes)
+void EEPROM_Write_multiple_Bytes(unsigned char EepromAddr, unsigned char *RamAddr, char NoOfBytes)
  ----------------------------------------------------------------------------------------
  * I/P Arguments: char,-->eeprom_address from where the N-bytes are to be written.
                   char*-->Pointer to the N-bytes of data to be written.
@@ -72,7 +72,12 @@ void EEPROM_WriteNBytes(unsigned char EepromAddr, unsigned char *RamAddr, char N
             NoOfBytes is Decemented each time a byte is written.
             Above Operation is carried out till all the bytes are written(NoOfBytes!=0)
 ---------------------------------------------------------------------------------------*/
-/*void EEPROM_WriteNBytes(unsigned char EepromAddr, unsigned char *RamAddr, char NoOfBytes, unsigned char Page_Number)
+/*****************************************************************************************/
+
+/*****************************************************************************************/
+//Written in report
+/*****************************************************************************************/
+/*void EEPROM_Write_multiple_Bytes(unsigned char EepromAddr, unsigned char *RamAddr, char NoOfBytes, unsigned char Page_Number)
  {
   while(NoOfBytes !=  0)
    {
@@ -86,7 +91,7 @@ void EEPROM_WriteNBytes(unsigned char EepromAddr, unsigned char *RamAddr, char N
 
 
 /*---------------------------------------------------------------------------------------
-void EEPROM_ReadNBytes(unsigned char EepromAddr, unsigned char *RamAddr, char NoOfBytes)
+void EEPROM_Read_multiple_Bytes(unsigned char EepromAddr, unsigned char *RamAddr, char NoOfBytes)
  ----------------------------------------------------------------------------------------
  * I/P Arguments: char,-->eeprom_address from where the N-bytes is to be read.
                   char*-->Pointer into which the N-bytes of data is to be read.
@@ -101,7 +106,7 @@ void EEPROM_ReadNBytes(unsigned char EepromAddr, unsigned char *RamAddr, char No
             NoOfBytes is Decemented after a byte is read.
             Above Operation is carried out till all the bytes are read(NoOfBytes!=0)
 ---------------------------------------------------------------------------------------*/
-/*void EEPROM_ReadNBytes(unsigned char EepromAddr, unsigned char *RamAddr, char NoOfBytes,unsigned char Page_Number)
+/*void EEPROM_Read_multiple_Bytes(unsigned char EepromAddr, unsigned char *RamAddr, char NoOfBytes,unsigned char Page_Number)
  {
    while(NoOfBytes !=  0)
 	{

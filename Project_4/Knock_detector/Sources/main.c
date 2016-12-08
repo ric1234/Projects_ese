@@ -39,38 +39,37 @@
 
 int main(void)
 {
+	extern int old_time, new_time;
+	old_time=0;
+	new_time=0;
 		/*you can select the architecture to compile for in the main.h*/
-	//__disable_irq();  //function for disabling the interrupts
+	__disable_irq();  //function for disabling the interrupts
 	uart0_init();             //function for initializing the rgb leds
 	uart0_tx();               //function for initializing the transmit data*/
 	uart0_rx();             //function for initializing the receive data
 	//rgb_pwm_init();           //initialize rgb pwm
-	MCU_Init();					//Initializes the I2C
-    //Accelerometer_Init();
+	i2c0_init();					//Initializes the I2C
+    Accelerometer_Init();
 	rtc_start();		//Connect J1 05 and J10 12 on the board
 
 	__enable_irq();         //function for enabling the interrupts
-	//message_functions_ptr=&message_functions; //using function pointer for messaging
-	//Response msg= (*message_functions_ptr)(); //calling messaging interface
+	message_functions_ptr=&message_functions; //using function pointer for messaging
+	Response msg= (*message_functions_ptr)(); //calling messaging interface
 
 
-
-	unsigned char out, *ptr,out2;
+	//EEprom
+	/*unsigned char out, *ptr,out2;
 				ptr=&out2;
 
 				EEPROM_WriteByte(0x04, 0x62, 0x01);
 				out=EEPROM_ReadByte(0x03,0x01);
 									out=hex_to_ascii(out,ptr);
 									print_string(ptr,1);
-									print_string(&out,1);
+									print_string(&out,1);*/
 
 
 		while(1)
 		{
-			if (interrupt_rtc)
-				print_rtc();
-
-
 
 
 		}

@@ -34,6 +34,9 @@ for(i=0;i<2;i++){
 
  Response message_functions()
  {
+	 while(1)
+	 {
+	 print("\r\nEnter the command you want to run:\n");
 	 CI_Msg Message;       //A variable for message structure
 	  message_input(&Message);  //Passing variable to get the latest data
 	 CI_Msg *cmd_ptr= &Message;
@@ -147,11 +150,20 @@ for(i=0;i<2;i++){
 	 else if((cmd_ptr->command)==ACCELEROMETER)
 	 {
 		 print("\r\n Your knock detector is ON");
+		 uart0_rx_int_based();				//Uart recieve is interrupt handled
 		 while(1)
 		 {
-			 ptr_test_accelerometer= &test_accelerometer;
+			ptr_test_accelerometer= &test_accelerometer;
 		  (*ptr_test_accelerometer)();
+		  if(superuser)
+		  {
+			  uart0_rx();
+			  superuser=0;
+			  print("\n\rYour knock detector is OFF");
+			  break;
+		  }
 		 }
+	 }
 	 }
 	 return SUCCESS;
 

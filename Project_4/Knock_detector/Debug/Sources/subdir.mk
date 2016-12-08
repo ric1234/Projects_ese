@@ -13,6 +13,7 @@ C_SRCS += \
 ../Sources/ftoa.c \
 ../Sources/i2c.c \
 ../Sources/io.c \
+../Sources/logging.c \
 ../Sources/main.c \
 ../Sources/message.c \
 ../Sources/profile.c \
@@ -30,6 +31,7 @@ OBJS += \
 ./Sources/ftoa.o \
 ./Sources/i2c.o \
 ./Sources/io.o \
+./Sources/logging.o \
 ./Sources/main.o \
 ./Sources/message.o \
 ./Sources/profile.o \
@@ -47,6 +49,7 @@ C_DEPS += \
 ./Sources/ftoa.d \
 ./Sources/i2c.d \
 ./Sources/io.d \
+./Sources/logging.d \
 ./Sources/main.d \
 ./Sources/message.d \
 ./Sources/profile.d \

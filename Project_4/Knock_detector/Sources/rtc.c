@@ -7,7 +7,7 @@
 #include "rtc.h"
 #include "main.h"
 
-void Clock_Configuration (void)
+void Clock_Config_rtc (void)
 {
 	extern volatile int seconds_rtc, minutes_rtc;
 		extern volatile uint8_t interrupt_rtc;
@@ -67,48 +67,10 @@ void rtc_init()
 
 }
 
-/*Out pointer has the msb part and the return value is the lsb part*/
-unsigned char hex_to_ascii(unsigned char hex_value, unsigned char * out)
-{
-    unsigned char output=0x00,temp_output1,temp_output2,m,n;
-    if(hex_value<=0x09)						//For single digit hex numbers
-    {
-        output=(hex_value+0x30);
-        *out=0x30;
-    }
-    else									//Split the data m is the MSB of the data; n is the LSB
-    {
-    m=hex_value&0x0F;
-    n=hex_value&0xF0;
-    n=n>>4;									//Shift n to the right so that we can work with it
-
-        if(m<=0x09)							//Make the lsb part into hex if below 10
-        {
-        	output=(m+0x30);
-        }
-		else if(m>=0x09)
-		{
-			temp_output1=m-0x09;
-			output=(temp_output1+0x40);
-		}
-
-
-        if(n<=0x09)								//Make the msb into hex
-        {
-        *out=(n+0x30);
-        }
-        else
-        {
-			temp_output2=n-0x09;
-			*out=(temp_output2+0x40);
-		}
-    }
-    return output;
-}
 
 void rtc_start()
 {
-	Clock_Configuration();
+	Clock_Config_rtc();
 	rtc_init();
 }
 
@@ -133,16 +95,36 @@ void print_rtc()
 
 void RTC_Seconds_IRQHandler(void)
 {
-	extern volatile int seconds_rtc,minutes_rtc;
-	extern volatile uint8_t interrupt_rtc;
-	interrupt_rtc = 1;
+	extern volatile int seconds_rtc;
+	//char m,n;
 	seconds_rtc = RTC_TSR;
-    if (seconds_rtc >59){
-    	minutes_rtc++;
-    	RTC_SR &= ~RTC_SR_TCE_MASK;
-    	RTC_TSR = 0x00; //Reset counter
-    	seconds_rtc = RTC_TSR;
-    	RTC_SR |= RTC_SR_TCE_MASK;
-    }
+	/* if (seconds_rtc >59){
+	    												    	//minutes_rtc++;
+	    												    	RTC_SR &= ~RTC_SR_TCE_MASK;
+	    												    	RTC_TSR = 0x00; //Reset counter
+	    												    	seconds_rtc = RTC_TSR;
+	    												    	RTC_SR |= RTC_SR_TCE_MASK;
+	    												    }*/
+	 /*n=hex_to_ascii(seconds_rtc,&m);
+    													print("\n\r Seconds:");
+    													print_string(&m,1);
+    													print_string(&n,1);*/
+
+
+    													/*******************/
+
+    													/*extern volatile int seconds_rtc,minutes_rtc;
+    													extern volatile uint8_t interrupt_rtc;
+    													interrupt_rtc = 1;
+    													seconds_rtc = RTC_TSR;
+    												    if (seconds_rtc >59){
+    												    	minutes_rtc++;
+    												    	RTC_SR &= ~RTC_SR_TCE_MASK;
+    												    	RTC_TSR = 0x00; //Reset counter
+    												    	seconds_rtc = RTC_TSR;
+    												    	RTC_SR |= RTC_SR_TCE_MASK;
+    												    }*/
+
+    													/*****************/
 }
 

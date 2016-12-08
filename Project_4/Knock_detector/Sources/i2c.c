@@ -5,188 +5,41 @@
  *      Author: richa
  */
 #include "i2c.h"
-//#include "derivative.h"
-
 void i2c0_init(void)
 {
-	SIM->SCGC4 |= SIM_SCGC4_I2C0_MASK;				//turn on the clok to i2c0
-	/*SIM->SCGC5 |= SIM_SCGC5_PORTE_MASK;				//CLock port E
-	PORTE->PCR[24]= 0x0500;
-	//PORTE->PCR[24]=PORT_PCR_MUX[6];				//In mask form
-	PORTE->PCR[25]= 0x0500;*/
+	//I2C0 module initialization
+	SIM_SCGC4 |= SIM_SCGC4_I2C0_MASK;		// Turn on clock to I2C0 module
+	SIM_SCGC5 |= SIM_SCGC5_PORTE_MASK;		// Turn on clock to Port E module
+	PORTE_PCR24 = PORT_PCR_MUX(5);			// PTE24 pin is I2C0 SCL line
+	PORTE_PCR25 = PORT_PCR_MUX(5);			// PTE25 pin is I2C0 SDA line
+	I2C0_F  = 0x14; 						// SDA hold time = 2.125us, SCL start hold time = 4.25us, SCL stop hold time = 5.125us *
+	I2C0_C1 = I2C_C1_IICEN_MASK;    		// Enable I2C0 module
 
 	SIM_SCGC5 |= SIM_SCGC5_PORTC_MASK;
-	PORTC_PCR14 |= PORT_PCR_MUX(2);       //PTC1 as RTC_CLKIN
-	PORTC_PCR16 |= PORT_PCR_MUX(2);       //PTC1 as RTC_CLKIN
-
-
-	I2C0->C1=0;							//Disable I2C
-		I2C0->S=2;							//Clear interrupt
-		I2C0->F=0x1C;						//97.09Khz @13.981Mhz bus cycle
-		I2C0_C1 = I2C_C1_IICEN(1);				//I2c enable, intrrupt disabled by default
-		I2C0_C1 = I2C_C1_IICIE(1);
-}
-
-void i2c0_tx_data(uint8_t ch)
-{
-	int i;
-	//while(I2C->S & 0x20);
-	//pg716
-	//I2C0_A1= I2C_A1_AD(0x1D);				//Shifting and masking done in the header file
-
-I2C0_C1 = I2C_C1_TX(1);					//Starts the transmission
-	I2C0_C1 = I2C_C1_MST(1);				//Generates start bit
-
-
-	I2C0_D	= 0x1D<<1;				//Slave address
-
-
-//	while(!(I2C0->S & 0x02));			//Wait for transfer to complete
-	I2C0->S |= 0x02;				//Clear interrupt
-	if(I2C0->S & 0x10)
-	{
-		I2C0->S |= 0x10;
-		print("Arbitration lost\n\r");
-	}
-	if(I2C0->S & 0x01)
-	{
-		print("No ack\n\r");
-	}
-
-
-	for(i=0;i<500;i++);		//delay
+		PORTC_PCR8 |= PORT_PCR_MUX(2);       //PTC1 as RTC_CLKIN
+		PORTC_PCR9 |= PORT_PCR_MUX(2);       //PTC1 as RTC_CLKIN
 
 
 
-	//I2C0->D = memaddr
+	//Configure the PTA14 pin (connected to the INT1 of the MMA8451Q) for falling edge interrupts
 
+	SIM_SCGC5 |= SIM_SCGC5_PORTA_MASK;		// Turn on clock to Port A module
+	PORTA_PCR14 |= (0|PORT_PCR_ISF_MASK|	// Clear the interrupt flag
+					  PORT_PCR_MUX(0x1)|	// PTA14 is configured as GPIO
+					  PORT_PCR_IRQC(0xA));	// PTA14 is configured for falling edge interrupts
 
-	I2C0_D=MMA8451_CTRL_REG_1;
-	//	while(!(I2C0->S & 0x02));			//Wait for transfer to complete
-		I2C0->S |= 0x02;				//Clear interrupt
-		if(I2C0->S & 0x10)
-		{
-			I2C0->S |= 0x10;
-			print("Arbitration lost\n\r");
-		}
-		if(I2C0->S & 0x01)
-		{
-			print("No ack\n\r");
-		}
+	//Enable PORTA interrupt on NVIC
 
+	//NVIC_ICPR |= 1 << ((PORTA_IRQn - 16)%32);
+	//NVIC->ISER[0] |= 1 << ((PORTA_IRQn - 16)%32);
+	//NVIC->ISER[0] |= 0x40000000;
 
-		for(i=0;i<500;i++);		//delay
-
-	I2C0_D=MMA8451_ACTIVE_BIT_MASK;
-	//	while(!(I2C0->S & 0x02));			//Wait for transfer to complete
-		I2C0->S |= 0x02;				//Clear interrupt
-		if(I2C0->S & 0x10)
-		{
-			I2C0->S |= 0x10;
-			print("Arbitration lost\n\r");
-		}
-		if(I2C0->S & 0x01)
-		{
-			print("No ack\n\r");
-		}
-
-
-		for(i=0;i<500;i++);		//delay
-
-	I2C0_C1 = I2C_C1_MST(0);			// Generates stop bit
+	//NVIC_EnableIRQ(PORTA_IRQn);
 
 
 }
 
-void i2c0_rx_data(uint8_t ch)
-{
-	int i;
-	//while(I2C->S & 0x20);
-	//pg716
-	//I2C0_A1= I2C_A1_AD(0x1D);				//Shifting and masking done in the header file
-
-	I2C0_C1 = I2C_C1_TX(0);					//Starts the transmission
-	I2C0_C1 = I2C_C1_MST(1);				//Generates start bit
-
-
-	I2C0_D	= 0x1D<<1;				//Slave address
-
-
-
-
-//	while(!(I2C0->S & 0x02));			//Wait for transfer to complete
-	I2C0->S |= 0x02;				//Clear interrupt
-	if(I2C0->S & 0x10)
-	{
-		I2C0->S |= 0x10;
-		print("Arbitration lost\n\r");
-	}
-	if(I2C0->S & 0x01)
-	{
-		print("No ack\n\r");
-	}
-
-
-	for(i=0;i<500;i++);		//delay
-
-
-
-	//I2C0->D = memaddr
-
-
-	I2C0_D=MMA8451_CTRL_REG_1;
-	//	while(!(I2C0->S & 0x02));			//Wait for transfer to complete
-		I2C0->S |= 0x02;				//Clear interrupt
-		if(I2C0->S & 0x10)
-		{
-			I2C0->S |= 0x10;
-			print("Arbitration lost\n\r");
-		}
-		if(I2C0->S & 0x01)
-		{
-			print("No ack\n\r");
-		}
-
-
-		for(i=0;i<500;i++);		//delay
-
-
-
-		I2C0_C1 |= I2C_C1_RSTA(1);
-		I2C0_D	= 0x1D<<1;				//Slave address
-			I2C0_D 	|= 0x01;
-
-			for(i=0;i<500;i++);		//delay
-		send_data(I2C0_D);
-
-	I2C0_C1 = I2C_C1_MST(0);			// Generates stop bit
-
-
-}
-
-
-
-/*
-
-es = MMA8451_WriteReg(MMA8451_CTRL_REG_1, MMA8451_ACTIVE_BIT_MASK);
-while(1)
-{
-res = MMA8451_ReadReg(MMA8451_OUT_X_MSB, (uint8_t*)&xyz, 3);
-LED1_Put(xyz[0]>50);
-
-uint8_t MMA8451_WriteReg(uint8_t addr, uint8_t val)
-{
-uint8_t buf[2], res;
-buf[0] = addr;
-buf[1] = val;
-res = I2C2_MasterSendBlock(deviceData.handle, &buf, 2U, LDD_I2C_SEND_STOP); // Send OutData (3 bytes with address) on the I2C bus and generates not a stop condition to end transmission
-}
-
-uint8_t MMA8451_ReadReg(uint8_t addr, uint8_t *data, short dataSize) {
-uint8_t res;
-*/
-/**************************************************************************************/
-void I2C_WriteRegister(unsigned char u8SlaveAddress, unsigned char u8RegisterAddress, /*unsigned*/ char u8Data)
+void I2C_WriteRegister(unsigned char u8SlaveAddress, unsigned char u8RegisterAddress, unsigned char u8Data)
 {
 	I2C_Start();
 	I2C0_D = u8SlaveAddress << 1;									/* Send I2C device address with W/R bit = 0 */
@@ -299,7 +152,8 @@ void I2C_ReadMultiRegisters(unsigned char u8SlaveAddress, unsigned char u8Regist
 	*r = I2C0_D;
 	Pause(50);
 }
-
+/*****************************************************************/
+//Check if pause can be eliminated by using delay functions instead
 void Pause(int number)
 {
 	int cnt;
@@ -308,4 +162,5 @@ void Pause(int number)
 		//asm("nop");
 	};
 }
+/*******************************************************************/
 

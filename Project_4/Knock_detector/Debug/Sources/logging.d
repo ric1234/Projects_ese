@@ -1,4 +1,4 @@
-Sources/pwm_inti.o: ../Sources/pwm_inti.c ../Includes/main.h \
+Sources/logging.o: ../Sources/logging.c ../Includes/main.h \
  ../Includes/MKL25Z4.h ../Includes/core_cm0plus.h \
  ../Includes/core_cmInstr.h ../Includes/core_cmFunc.h \
  ../Includes/system_MKL25Z4.h ../Includes/uart.h ../Includes/io.h \

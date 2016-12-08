@@ -83,7 +83,6 @@
 
 unsigned char AccData[6];
 uint16_t Xout_14_bit, Yout_14_bit, Zout_14_bit;
-char Xout_14_bit_in_ascii, Yout_14_bit_in_ascii, Zout_14_bit_in_ascii;
 float Xout_g, Yout_g, Zout_g;
 volatile char DataReady;
 char Xoffset, Yoffset, Zoffset;
@@ -93,7 +92,6 @@ char Test;
 * Functions
 ******************************************************************************/
 
-void MCU_Init(void);
 void Accelerometer_Init (void);
 void Calibrate(void);
 

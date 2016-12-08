@@ -69,5 +69,65 @@ int power(int a, int n)
 
  }
 
+/*Out pointer has the msb part and the return value is the lsb part*/
+unsigned char hex_to_ascii(unsigned char hex_value, unsigned char * out)
+{
+    unsigned char output=0x00,temp_output1,temp_output2,m,n;
+    if(hex_value<=0x09)						//For single digit hex numbers
+    {
+        output=(hex_value+0x30);
+        *out=0x30;
+    }
+    else									//Split the data m is the MSB of the data; n is the LSB
+    {
+    m=hex_value&0x0F;
+    n=hex_value&0xF0;
+    n=n>>4;									//Shift n to the right so that we can work with it
+
+        if(m<=0x09)							//Make the lsb part into hex if below 10
+        {
+        	output=(m+0x30);
+        }
+		else if(m>=0x09)
+		{
+			temp_output1=m-0x09;
+			output=(temp_output1+0x40);
+		}
+
+
+        if(n<=0x09)								//Make the msb into hex
+        {
+        *out=(n+0x30);
+        }
+        else
+        {
+			temp_output2=n-0x09;
+			*out=(temp_output2+0x40);
+		}
+    }
+    return output;
+}
+
+uint16_t my_itoa(char * str, int data)
+{
+ uint16_t num_digits=0;
+   while(data!=0) //Using traditional divding way to get integers seperately
+   {
+     *str= data%10; //dividing by 10 multiple times and storing reminders to get each integer
+     *str=(*str)+0x30;					//Conversion to ascii
+     data= data/10;
+     str++;
+     num_digits++;
+   }
+   str=str-num_digits;
+   reverse(str,num_digits);
+   return num_digits;
+}
+
+
+
+
+
+
 
 

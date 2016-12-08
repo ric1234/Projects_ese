@@ -6,7 +6,7 @@ Sources/eeprom.o: ../Sources/eeprom.c ../Includes/i2c.h \
  ../Includes/colors.h ../Includes/rgb_pwm_init.h ../Includes/ftoa.h \
  ../Includes/dma.h ../Includes/adc.h ../Includes/delay.h \
  ../Includes/accelerometer.h ../Includes/i2c.h ../Includes/rtc.h \
- ../Includes/eeprom.h
+ ../Includes/eeprom.h ../Includes/logging.h
 
 ../Includes/i2c.h:
 
@@ -49,3 +49,5 @@ Sources/eeprom.o: ../Sources/eeprom.c ../Includes/i2c.h \
 ../Includes/rtc.h:
 
 ../Includes/eeprom.h:
+
+../Includes/logging.h:

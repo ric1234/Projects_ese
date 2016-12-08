@@ -43,7 +43,9 @@ char receive_data_char(void)
 	m=&c;
 	while(!(UART0->S1 & 0x20))	{}
 	c = UART0->D;
-	print(m);
+	print("\r");
+	send_data(c);
+	print("\n");
 	return c;
 }
 
@@ -63,45 +65,10 @@ char receive_data_char_uart1(void)
 	m=&c;
 	while(!(UART1->S1 & 0x20))	{}
 	c = UART1->D;
-	print(m);
+	print("\r");
+	send_data(c);
+	print("\n");
 	return c;
 }
 
-void bluutooth_test()
-{
-	/********************************************/
-				/*uart1_init();
-				uart1_tx();
-				uart1_rx();*/
-
-				/***********************************************/
-				//Bluetooth part
-				/*send_data_uart1('$');
-				send_data_uart1('$');
-				send_data_uart1('$');
-
-				send_data('$');
-				send_data('$');
-				send_data('$');
-
-				delay_us(500);
-
-				send_data_uart1('D');
-
-				inner=receive_data_char_uart1();
-				outer=hex_to_ascii(inner,ptr);
-				print_string(ptr,1);
-				print_string(&outer,1);
-
-				inner=receive_data_char_uart1();
-				outer=hex_to_ascii(inner,ptr);
-				print_string(ptr,1);
-				print_string(&outer,1);
-
-				inner=receive_data_char_uart1();
-				outer=hex_to_ascii(inner,ptr);
-				print_string(ptr,1);
-				print_string(&outer,1);*/
-
-}
 

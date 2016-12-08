@@ -9,11 +9,11 @@
 #define INCLUDES_RTC_H_
 
 #include "MKL25Z4.h"
+#include "ftoa.h"
 
 
-void Clock_Configuration (void);
+void Clock_Config_rtc (void);
 void rtc_init();
-unsigned char hex_to_ascii(unsigned char hex_value, unsigned char * out);
 void rtc_start();
 void print_rtc();
 

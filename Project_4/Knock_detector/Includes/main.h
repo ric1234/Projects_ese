@@ -31,9 +31,13 @@
 #include "i2c.h"
 #include "rtc.h"
 #include "eeprom.h"
+#include "logging.h"
 
 volatile int seconds_rtc, minutes_rtc;
 volatile uint8_t interrupt_rtc;
+int old_time, new_time;
+
+uint8_t superuser;
 
 void dma_initialization(void);
 
