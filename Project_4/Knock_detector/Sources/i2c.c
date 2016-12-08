@@ -7,7 +7,7 @@
 #include "i2c.h"
 void i2c0_init(void)
 {
-	//I2C0 module initialization
+	/*****I2C0 module initialization*****/
 	SIM_SCGC4 |= SIM_SCGC4_I2C0_MASK;		// Turn on clock to I2C0 module
 	SIM_SCGC5 |= SIM_SCGC5_PORTE_MASK;		// Turn on clock to Port E module
 	PORTE_PCR24 = PORT_PCR_MUX(5);			// PTE24 pin is I2C0 SCL line
@@ -28,13 +28,6 @@ void i2c0_init(void)
 					  PORT_PCR_MUX(0x1)|	// PTA14 is configured as GPIO
 					  PORT_PCR_IRQC(0xA));	// PTA14 is configured for falling edge interrupts
 
-	//Enable PORTA interrupt on NVIC
-
-	//NVIC_ICPR |= 1 << ((PORTA_IRQn - 16)%32);
-	//NVIC->ISER[0] |= 1 << ((PORTA_IRQn - 16)%32);
-	//NVIC->ISER[0] |= 0x40000000;
-
-	//NVIC_EnableIRQ(PORTA_IRQn);
 
 
 }

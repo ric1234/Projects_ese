@@ -6,6 +6,7 @@
  */
 #include "main.h"
 
+/*** Inline Function to get the adc value*****/
  uint16_t inline adc_temperature(void)
  {
 	 uint16_t send=0,calib=0;
@@ -51,6 +52,7 @@ while(ADC0_SC2 & ADC_SC2_ADACT_MASK){}	 // Conversion in progress
  }
 
 
+ /***Function for calculating the exact temperature***/
 void temp_calc()
 {
 		uint16_t raw=0, len=0;
@@ -73,17 +75,17 @@ void temp_calc()
 	}
 	print("\n\r");
 	ftoa(Tempf, transfer, 2);
-		while(*b!='\0')
+		while(*b!='\0')       //Printing out the temperature
 		  {
 			  len++;
 			  b++;
 		  }
 		print_string(transfer, len);
 		print("C");
-		delay_ms(500);
 }
 
-float inline Temp_conv (float a)
+/*****Function for Vtemp calculations***/
+float inline Temp_conv (float a) //calling an inline function for Vtemp calculations
 {
 	float b = (a-0.7012)/0.001646;
 	return b;

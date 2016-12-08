@@ -10,14 +10,8 @@
 /*Sends data as single character*/
 void send_data(char character)
 {
-#ifdef bluetooth
-	UART1->D = (uint8_t)character;						//Move the character to the Uart data buffer
-	while(!(UART1->S1 & 0x80))	{}						//Wait for the transmit to take place
-#else
-
 	UART0->D = (uint8_t)character;						//Move the character to the Uart data buffer
 	while(!(UART0->S1 & 0x80))	{}						//Wait for the transmit to take place
-#endif
 }
 
 /*Receive data from the uart channel. Needs a destination to point to*/
@@ -48,27 +42,4 @@ char receive_data_char(void)
 	print("\n");
 	return c;
 }
-
-/*Sends data as single character*/
-void send_data_uart1(char character)
-{
-
-	UART1->D = (uint8_t)character;						//Move the character to the Uart data buffer
-	while(!(UART1->S1 & 0x80))	{}						//Wait for the transmit to take place
-
-}
-
-/*Blocking function for UART*/
-char receive_data_char_uart1(void)
-{
-	char c,*m;
-	m=&c;
-	while(!(UART1->S1 & 0x20))	{}
-	c = UART1->D;
-	print("\r");
-	send_data(c);
-	print("\n");
-	return c;
-}
-
 

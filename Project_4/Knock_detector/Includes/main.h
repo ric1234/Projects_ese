@@ -21,8 +21,6 @@
 #include "io.h"
 #include "profile.h"
 #include "message.h"
-#include"colors.h"
-#include"rgb_pwm_init.h"
 #include"ftoa.h"
 #include"dma.h"
 #include "adc.h"
@@ -39,7 +37,7 @@ int old_time, new_time;
 
 uint8_t superuser;
 
-void dma_initialization(void);
+
 
 
 

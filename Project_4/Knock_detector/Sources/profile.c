@@ -7,7 +7,7 @@
 /*Description: This file contains the file for the profiling for the FRDM board*/
 
 #include "main.h"
-/*Profiler timer initialization*/
+/******Profiler timer initialization********/
 void profile_timer_init(void)
 {
 	int overflow;
@@ -19,7 +19,7 @@ void profile_timer_init(void)
 	TPM1->MOD = 0xFFFF;							//Maximum value the counter will count to
 }
 
-/*Turn on the timer for profiling*/
+/*******Turn on the timer for profiling**********/
 void timer_on(void)
 {
 	TPM1->SC |= 0x08;				//Start the timer
@@ -36,7 +36,7 @@ void timer_reset(void)
 	TPM1->CNT = 0;					//Set counter value to 0
 }
 
-/*Calculation of the time taken*/
+/****Calculation of the time taken********/
 float timer_calculate(void)
 {
 	float timer_cycles, run_time;
@@ -46,7 +46,7 @@ float timer_calculate(void)
 	return run_time;
 }
 
-/*Function to print the value of the timer*/
+/******Function to print the value of the timer**********/
 void timer_print(void)
 {
 	float profile_time;

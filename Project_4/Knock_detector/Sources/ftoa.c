@@ -108,6 +108,7 @@ unsigned char hex_to_ascii(unsigned char hex_value, unsigned char * out)
     return output;
 }
 
+/*******function to convert int to ascii******/
 uint16_t my_itoa(char * str, int data)
 {
  uint16_t num_digits=0;

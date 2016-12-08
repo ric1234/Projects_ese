@@ -6,7 +6,7 @@
  */
 #include "main.h"
 
-/*Function to receive the message from the terminal*/
+/*****Function to receive the message from the terminal*******/
   void inline message_input(CI_Msg *c)
 {
 uint8_t *a=(uint8_t*)c; //type casting the message structure to a byte pointer
@@ -23,19 +23,18 @@ for(i=0;i<(c->length-0x30);i++){
 }
 a=a+MAX_DATA_SIZE-i;
 
-for(i=0;i<2;i++){
-	*a=(uint8_t)receive_data_char(); //storing checksum received from the terminal
-		a++;
-}
 }
 
 
- /*Function to interpret the message coming from UART*/
+ /*****Function to interpret the message coming from UART*****/
 
  Response message_functions()
  {
 	 while(1)
 	 {
+			extern int old_time, new_time;  // old and new times
+			old_time=0;
+			new_time=0;
 	 print("\r\nEnter the command you want to run:\n");
 	 CI_Msg Message;       //A variable for message structure
 	  message_input(&Message);  //Passing variable to get the latest data
@@ -51,116 +50,21 @@ for(i=0;i<2;i++){
 	 {
 	 return ERROR;  // Received an error, checksum fail
 	 }
-	 if((cmd_ptr->command)==RED_LED)    //for red led command
-	 {
-		 red();                      //Initialize red led
-		 switch(cmd_ptr->data[0])      //setting brightness
-		 {
-		 case '0':
-			 red_brightness(0xFFFF);
-			 break;
-		 case '1':
-		 	  red_brightness(0xFF00);
-		 	 break;
-		 case '2':
-			  red_brightness(0xF000);
-			  break;
-		 case '3':
-			  red_brightness(0xD000);
-			  break;
-		 case '4':
-					 red_brightness(0xB000);
-					 break;
-				 case '5':
-				 	  red_brightness(0x9000);
-				 	 break;
-				 case '6':
-					  red_brightness(0x5000);
-					  break;
-				 case '7':
-					  red_brightness(0x1000);
-					  break;
-		 }
-	 }
-	 else if((cmd_ptr->command)==GREEN_LED)  //for green led command
-	 {
-				 green();                    //Initialize green led
-				 switch(cmd_ptr->data[0])     //setting brightness
-				 {
-				 case '0':
-					 green_brightness(0xFFFF);
-					 break;
-				 case '1':
-				 	  green_brightness(0xFF00);
-				 	 break;
-				 case '2':
-					  green_brightness(0xF000);
-					  break;
-				 case '3':
-					  green_brightness(0xD000);
-					  break;
-				 case '4':
-							 green_brightness(0xB000);
-							 break;
-						 case '5':
-						 	  green_brightness(0x9000);
-						 	 break;
-						 case '6':
-							  green_brightness(0x5000);
-							  break;
-						 case '7':
-							  green_brightness(0x1000);
-							  break;
-				 }
-	 }
 
-	 else if((cmd_ptr->command)==BLUE_LED)
-	 {
-		 blue();
-
-						 switch(cmd_ptr->data[0])
-						 {
-						 case '0':
-							 blue_brightness(0xFFFF);
-							 break;
-						 case '1':
-						 	  blue_brightness(0xFF00);
-						 	 break;
-						 case '2':
-							  blue_brightness(0xF000);
-							  break;
-						 case '3':
-							  blue_brightness(0xD000);
-							  break;
-						 case '4':
-									 blue_brightness(0xB000);
-									 break;
-								 case '5':
-								 	  blue_brightness(0x9000);
-								 	 break;
-								 case '6':
-									  blue_brightness(0x5000);
-									  break;
-								 case '7':
-									  blue_brightness(0x1000);
-									  break;
-						 }
-	 }
-
-	 else if((cmd_ptr->command)==ACCELEROMETER)
+     if((cmd_ptr->command)==ACCELEROMETER)
 	 {
 		 print("\r\n Your knock detector is ON");
-		 uart0_rx_int_based();				//Uart recieve is interrupt handled
+		 uart0_rx_int_based();			          	//Uart receive is interrupt handled
 		 while(1)
 		 {
 			ptr_test_accelerometer= &test_accelerometer;
-		  (*ptr_test_accelerometer)();
-		  if(superuser)
+		  (*ptr_test_accelerometer)();                  //calling the test accelerometer
+		  if(superuser)                               //if input to shut the accelerometer is received
 		  {
 			  uart0_rx();
 			  superuser=0;
 			  print("\n\rYour knock detector is OFF");
-			  break;
+			  break;                                     //go back to the messaging interface
 		  }
 		 }
 	 }

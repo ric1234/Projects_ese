@@ -6,7 +6,6 @@
 C_SRCS += \
 ../Sources/accelerometer.c \
 ../Sources/adc.c \
-../Sources/color.c \
 ../Sources/delay.c \
 ../Sources/dma.c \
 ../Sources/eeprom.c \
@@ -17,14 +16,12 @@ C_SRCS += \
 ../Sources/main.c \
 ../Sources/message.c \
 ../Sources/profile.c \
-../Sources/pwm_inti.c \
 ../Sources/rtc.c \
 ../Sources/uart.c 
 
 OBJS += \
 ./Sources/accelerometer.o \
 ./Sources/adc.o \
-./Sources/color.o \
 ./Sources/delay.o \
 ./Sources/dma.o \
 ./Sources/eeprom.o \
@@ -35,14 +32,12 @@ OBJS += \
 ./Sources/main.o \
 ./Sources/message.o \
 ./Sources/profile.o \
-./Sources/pwm_inti.o \
 ./Sources/rtc.o \
 ./Sources/uart.o 
 
 C_DEPS += \
 ./Sources/accelerometer.d \
 ./Sources/adc.d \
-./Sources/color.d \
 ./Sources/delay.d \
 ./Sources/dma.d \
 ./Sources/eeprom.d \
@@ -53,7 +48,6 @@ C_DEPS += \
 ./Sources/main.d \
 ./Sources/message.d \
 ./Sources/profile.d \
-./Sources/pwm_inti.d \
 ./Sources/rtc.d \
 ./Sources/uart.d 
 

@@ -4,7 +4,6 @@
  *  Created on: Dec 6, 2016
  *      Author: richa
  */
-#include "rtc.h"
 #include "main.h"
 
 void Clock_Config_rtc (void)
@@ -96,35 +95,7 @@ void print_rtc()
 void RTC_Seconds_IRQHandler(void)
 {
 	extern volatile int seconds_rtc;
-	//char m,n;
 	seconds_rtc = RTC_TSR;
-	/* if (seconds_rtc >59){
-	    												    	//minutes_rtc++;
-	    												    	RTC_SR &= ~RTC_SR_TCE_MASK;
-	    												    	RTC_TSR = 0x00; //Reset counter
-	    												    	seconds_rtc = RTC_TSR;
-	    												    	RTC_SR |= RTC_SR_TCE_MASK;
-	    												    }*/
-	 /*n=hex_to_ascii(seconds_rtc,&m);
-    													print("\n\r Seconds:");
-    													print_string(&m,1);
-    													print_string(&n,1);*/
 
-
-    													/*******************/
-
-    													/*extern volatile int seconds_rtc,minutes_rtc;
-    													extern volatile uint8_t interrupt_rtc;
-    													interrupt_rtc = 1;
-    													seconds_rtc = RTC_TSR;
-    												    if (seconds_rtc >59){
-    												    	minutes_rtc++;
-    												    	RTC_SR &= ~RTC_SR_TCE_MASK;
-    												    	RTC_TSR = 0x00; //Reset counter
-    												    	seconds_rtc = RTC_TSR;
-    												    	RTC_SR |= RTC_SR_TCE_MASK;
-    												    }*/
-
-    													/*****************/
 }
 

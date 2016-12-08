@@ -6,6 +6,7 @@
  */
 #include "main.h"
 
+/*******Using the timer*******/
 void delay_us(int time)
 {
 	SIM->SCGC6|=0x02000000;						//Enable clock for TPM1
@@ -19,6 +20,7 @@ void delay_us(int time)
 	TPM1->CNT = 0;
 }
 
+/****Delay function in msec*****/
 void delay_ms(int time_ms)
 {
 	int i;
