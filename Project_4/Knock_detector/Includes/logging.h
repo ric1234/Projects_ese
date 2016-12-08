@@ -11,4 +11,5 @@
 char Zout_14_bit_in_ascii;
 void alert(float Axis_value);
 
+
 #endif /* INCLUDES_LOGGING_H_ */

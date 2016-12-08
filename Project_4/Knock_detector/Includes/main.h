@@ -33,7 +33,16 @@
 
 volatile int seconds_rtc, minutes_rtc;
 volatile uint8_t interrupt_rtc;
-int old_time, new_time;
+int old_time, new_time,structure_item;
+
+
+typedef struct Information_t{
+float Knock[100];                       // Command operation
+float Temp[100];                    // Size of the data
+char time[100];       // Generic data payload
+} Information;
+
+Information info;
 
 uint8_t superuser;
 

@@ -56,6 +56,14 @@ int main(void)
 	message_functions_ptr=&message_functions; //using function pointer for messaging
 	Response msg= (*message_functions_ptr)(); //calling messaging interface
 
+	/*char out= EEPROM_ReadByte(0x09,0x05);
+	int a = (int)out;
+	char string[10];
+	char*ptr = &string[0];
+	my_itoa(ptr,out);
+	print_string(ptr,2);
+	print("\n\r");*/
+
 }
 
 

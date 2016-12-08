@@ -32,6 +32,8 @@ void i2c0_init(void)
 
 }
 
+
+/**************Writing data out using i2c***********/
 void I2C_WriteRegister(unsigned char u8SlaveAddress, unsigned char u8RegisterAddress, unsigned char u8Data)
 {
 	I2C_Start();
@@ -48,6 +50,8 @@ void I2C_WriteRegister(unsigned char u8SlaveAddress, unsigned char u8RegisterAdd
 
     Pause(50);
 }
+
+/**************Reading the data from i2c*********/
 
 unsigned char I2C_ReadRegister_single(unsigned char u8SlaveAddress, unsigned char u8RegisterAddress)
 {
@@ -79,6 +83,7 @@ unsigned char I2C_ReadRegister_single(unsigned char u8SlaveAddress, unsigned cha
 	Pause(50);
 	return result;
 }
+
 
 unsigned char I2C_ReadRegister(unsigned char u8SlaveAddress, unsigned char u8RegisterAddress)
 {

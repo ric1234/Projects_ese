@@ -46,7 +46,7 @@ unsigned char EEPROM_ReadByte(unsigned char eeprom_Address,unsigned char Page_Nu
 {
   unsigned char eeprom_Data;
 
-  eeprom_Data=I2C_ReadRegister_single(EEPROM_ID | Page_Number, eeprom_Address);
+  eeprom_Data=I2C_ReadRegister(EEPROM_ID | Page_Number, eeprom_Address);
   return eeprom_Data;          // Return the Read data
 
 }

@@ -32,7 +32,7 @@ a=a+MAX_DATA_SIZE-i;
  {
 	 while(1)
 	 {
-			extern int old_time, new_time;  // old and new times
+			extern int old_time, new_time,structure_item;  // old and new times
 			old_time=0;
 			new_time=0;
 	 print("\r\nEnter the command you want to run:\n");
@@ -54,6 +54,7 @@ a=a+MAX_DATA_SIZE-i;
      if((cmd_ptr->command)==ACCELEROMETER)
 	 {
 		 print("\r\n Your knock detector is ON");
+		  structure_item=0;
 		 uart0_rx_int_based();			          	//Uart receive is interrupt handled
 		 while(1)
 		 {
@@ -68,6 +69,43 @@ a=a+MAX_DATA_SIZE-i;
 		  }
 		 }
 	 }
+
+     else if((cmd_ptr->command)==MEMORY)
+     {
+    	 print("\r\n The stored information is:");
+    	 print("\r\n");
+    	 int j;
+    	 char transfer[20];
+    	 char *b=transfer;
+    	 char knock_str;
+    	 uint16_t len=0,num=0;
+    	 unsigned char time_difference_ascii[10];
+    	 extern Information info;
+    	 Information* info_ptr=&info;
+    	 print("Knock value\t");
+    	 print("Temperature\t");
+    	 print("Time difference\t");
+    	 for(j=0;j<=structure_item-1;j++)
+    	 {
+    		ftoa (info_ptr->Knock[j],&knock_str,1);
+    		print("\n \r");
+    		print_string(&knock_str,4);
+    		print("\t\t");
+    		ftoa(info_ptr->Temp[j], transfer, 2);
+    		while(*b!='\0')       //Printing out the temperature
+    		 {
+    			 len++;
+    		      b++;
+    		  }
+    		 print_string(transfer, len);
+    		print("C");
+    		print("\t\t");
+    		num=my_itoa(&time_difference_ascii[0],info_ptr->time[j]);
+    		print_string(&time_difference_ascii[0],num);
+    		print("seconds\n");
+    	 }
+
+     }
 	 }
 	 return SUCCESS;
 

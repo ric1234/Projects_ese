@@ -53,12 +53,10 @@ while(ADC0_SC2 & ADC_SC2_ADACT_MASK){}	 // Conversion in progress
 
 
  /***Function for calculating the exact temperature***/
-void temp_calc()
+float temp_calc()
 {
-		uint16_t raw=0, len=0;
+		uint16_t raw=0;
 		float Vtemp=0,Temp=0,Temp1=0,Temp2=0,Tempf=0;
-		char transfer[20];
-		char *b=transfer;
 	raw = adc_temperature(); //storing 10-bit temperature value
 	Vtemp = raw * 0.0029296875;  //Convert the ADC reading into voltage
 	if (Vtemp >= 0.7012)    //Check for Hot or Cold Slope
@@ -73,15 +71,7 @@ void temp_calc()
 		Temp = 25 - Temp2 ;   //Hot Slope)
 		Tempf = ((Temp - 32)/1.8) + 10;  //F to C conversion
 	}
-	print("\n\r");
-	ftoa(Tempf, transfer, 2);
-		while(*b!='\0')       //Printing out the temperature
-		  {
-			  len++;
-			  b++;
-		  }
-		print_string(transfer, len);
-		print("C");
+	return Tempf;
 }
 
 /*****Function for Vtemp calculations***/
